@@ -1,0 +1,140 @@
+# @genqlient(omitempty: true)
+query TeamWithMembers(
+    $organizationId: ID!
+    $siteId: String!
+    $first: Int!
+    $sortBy: [TeamSort]
+    $teamMemberAfter: String
+    $teamAfter: String
+) {
+    team {
+        teamSearchV2(
+            organizationId: $organizationId
+            siteId: $siteId
+            first: $first
+            sortBy: $sortBy
+            after: $teamAfter
+        ) @optIn(to: "Team-search-v2") {
+            pageInfo {
+                hasNextPage
+                hasPreviousPage
+                startCursor
+                endCursor
+            }
+            nodes {
+                memberCount
+                team {
+                    id
+                    organizationId
+                    state
+                    displayName
+                    description
+                    members(first: $first, after: $teamMemberAfter) {
+                        pageInfo {
+                            hasNextPage
+                            hasPreviousPage
+                            startCursor
+                            endCursor
+                        }
+                        nodes {
+                            state
+                            role
+                            member {
+                                ... on AtlassianAccountUser {
+                                    email
+                                }
+                                id
+                                accountStatus
+                                name
+                                accountId
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+query FindMembersTeams(
+    $organizationId: ID!
+    $siteId: String!
+    $first: Int
+    $sortBy: [TeamSort]
+    $teamAfter: String
+    $filterByMember: ID!
+) {
+    team {
+        teamSearchV2(
+            organizationId: $organizationId
+            siteId: $siteId
+            first: $first
+            sortBy: $sortBy
+            after: $teamAfter
+            filter: { membership: { memberIds: [$filterByMember] } }
+        ) @optIn(to: "Team-search-v2") {
+            pageInfo {
+                hasNextPage
+                hasPreviousPage
+                startCursor
+                endCursor
+            }
+            nodes {
+                memberCount
+                team {
+                    id
+                    organizationId
+                    state
+                    displayName
+                    description
+                }
+            }
+        }
+    }
+}
+
+query Teams(
+    $organizationId: ID!
+    $siteId: String!
+    $first: Int!
+    $sortBy: [TeamSort]
+    $teamAfter: String
+) {
+    team {
+        teamSearchV2(
+            organizationId: $organizationId
+            siteId: $siteId
+            first: $first
+            sortBy: $sortBy
+            after: $teamAfter
+        ) @optIn(to: "Team-search-v2") {
+            pageInfo {
+                hasNextPage
+                hasPreviousPage
+                startCursor
+                endCursor
+            }
+            nodes {
+                memberCount
+                team {
+                    id
+                    organizationId
+                    state
+                    displayName
+                    description
+                }
+            }
+        }
+    }
+}
+
+query QueryForTeam($siteId: String!, $query: ID!) {
+    team {
+        teamV2(id: $query, siteId: $siteId) @optIn(to: "Team-v2") {
+            id
+            displayName
+        }
+    }
+}
+

@@ -1,0 +1,7 @@
+schema: schema.graphql
+operations:
+  - genqlient.graphql
+generated: graphqlgen/generated.go
+
+# config file docs https://github.com/Khan/genqlient/blob/3da9a0f905b39f3b74156cb47d892543e5ab40aa/docs/genqlient.yaml
+
