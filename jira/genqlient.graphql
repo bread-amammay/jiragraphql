@@ -1,8 +1,48 @@
 # @genqlient(omitempty: true)
-query TeamWithMembers(
+# SearchForTeams will search for teams in the organization, this is a paginated query
+query SearchForTeams(
     $organizationId: ID!
     $siteId: String!
     $first: Int!
+    $query: String!
+    $sortBy: [TeamSort]
+    $teamAfter: String
+) {
+    team {
+        teamSearchV2(
+            organizationId: $organizationId
+            siteId: $siteId
+            first: $first
+            sortBy: $sortBy
+            after: $teamAfter
+            filter: { query: $query }
+        ) @optIn(to: "Team-search-v2") {
+            pageInfo {
+                hasNextPage
+                hasPreviousPage
+                startCursor
+                endCursor
+            }
+            nodes {
+                memberCount
+                team {
+                    id
+                    organizationId
+                    state
+                    displayName
+                    description
+                }
+            }
+        }
+    }
+}
+
+# Just like SearchForTeams, but also embeds the members of the teams
+query SearchForTeamsEmbedMembers(
+    $organizationId: ID!
+    $siteId: String!
+    $first: Int!
+    $query: String!
     $sortBy: [TeamSort]
     $teamMemberAfter: String
     $teamAfter: String
@@ -14,6 +54,7 @@ query TeamWithMembers(
             first: $first
             sortBy: $sortBy
             after: $teamAfter
+            filter: { query: $query }
         ) @optIn(to: "Team-search-v2") {
             pageInfo {
                 hasNextPage
@@ -56,8 +97,8 @@ query TeamWithMembers(
     }
 }
 
-
-query FindMembersTeams(
+# ListTeamsThatContainMember will list all teams that contain a specific member
+query ListTeamsThatContainMember(
     $organizationId: ID!
     $siteId: String!
     $first: Int
@@ -94,42 +135,8 @@ query FindMembersTeams(
     }
 }
 
-query Teams(
-    $organizationId: ID!
-    $siteId: String!
-    $first: Int!
-    $sortBy: [TeamSort]
-    $teamAfter: String
-) {
-    team {
-        teamSearchV2(
-            organizationId: $organizationId
-            siteId: $siteId
-            first: $first
-            sortBy: $sortBy
-            after: $teamAfter
-        ) @optIn(to: "Team-search-v2") {
-            pageInfo {
-                hasNextPage
-                hasPreviousPage
-                startCursor
-                endCursor
-            }
-            nodes {
-                memberCount
-                team {
-                    id
-                    organizationId
-                    state
-                    displayName
-                    description
-                }
-            }
-        }
-    }
-}
-
-query QueryForTeam($siteId: String!, $query: ID!) {
+# FindTeamByID will query for a specific team
+query FindTeamByID($siteId: String!, $query: ID!) {
     team {
         teamV2(id: $query, siteId: $siteId) @optIn(to: "Team-v2") {
             id

@@ -23,17 +23,81 @@ const (
 	AccountStatusClosed AccountStatus = "closed"
 )
 
-// FindMembersTeamsResponse is returned by FindMembersTeams on success.
-type FindMembersTeamsResponse struct {
+// FindTeamByIDResponse is returned by FindTeamByID on success.
+type FindTeamByIDResponse struct {
 	// Team-related queries
-	Team FindMembersTeamsTeamTeamQuery `json:"team"`
+	Team FindTeamByIDTeamTeamQuery `json:"team"`
 }
 
-// GetTeam returns FindMembersTeamsResponse.Team, and is useful for accessing the field via an interface.
-func (v *FindMembersTeamsResponse) GetTeam() FindMembersTeamsTeamTeamQuery { return v.Team }
+// GetTeam returns FindTeamByIDResponse.Team, and is useful for accessing the field via an interface.
+func (v *FindTeamByIDResponse) GetTeam() FindTeamByIDTeamTeamQuery { return v.Team }
 
-// FindMembersTeamsTeamTeamQuery includes the requested fields of the GraphQL type TeamQuery.
-type FindMembersTeamsTeamTeamQuery struct {
+// FindTeamByIDTeamTeamQuery includes the requested fields of the GraphQL type TeamQuery.
+type FindTeamByIDTeamTeamQuery struct {
+	// Returns the team with the given ARI in the specified site.
+	// Please provide the siteId if present, in its raw id form (i.e. not ARI).
+	// If siteId is not present, please provide "None" string.
+	//
+	// |Authentication Category    |Callable      |
+	// |:--------------------------|:-------------|
+	// | SESSION | ✅ Yes |
+	// | API_TOKEN | ✅ Yes |
+	// | CONTAINER_TOKEN | ❌ No |
+	// | FIRST_PARTY_OAUTH | ❌ No |
+	// | THIRD_PARTY_OAUTH | ✅ Yes |
+	// | UNAUTHENTICATED | ❌ No |
+	// ### OAuth Scopes
+	//
+	// One of the following scopes will need to be present on OAuth requests to get data from this field
+	//
+	// * __view:team:teams__
+	//
+	// ### Field lifecycle
+	//
+	// This field is in the 'EXPERIMENTAL' lifecycle stage
+	//
+	// To query this field a client will need to add the '@optIn(to: "Team-v2")'
+	// query directive to the 'teamV2' field, or to any of its parents.
+	//
+	// The field is extremely unstable. It can go through changes at any moment, and
+	// its execution can be slow and/or unreliable. Clients should use it with care
+	// and at their own risk!
+	TeamV2 FindTeamByIDTeamTeamQueryTeamV2 `json:"teamV2"`
+}
+
+// GetTeamV2 returns FindTeamByIDTeamTeamQuery.TeamV2, and is useful for accessing the field via an interface.
+func (v *FindTeamByIDTeamTeamQuery) GetTeamV2() FindTeamByIDTeamTeamQueryTeamV2 { return v.TeamV2 }
+
+// FindTeamByIDTeamTeamQueryTeamV2 includes the requested fields of the GraphQL type TeamV2.
+// The GraphQL type's documentation follows.
+//
+// Team returned in a team query
+type FindTeamByIDTeamTeamQueryTeamV2 struct {
+	// ID of the team
+	Id string `json:"id"`
+	// Display name of the team
+	DisplayName string `json:"displayName"`
+}
+
+// GetId returns FindTeamByIDTeamTeamQueryTeamV2.Id, and is useful for accessing the field via an interface.
+func (v *FindTeamByIDTeamTeamQueryTeamV2) GetId() string { return v.Id }
+
+// GetDisplayName returns FindTeamByIDTeamTeamQueryTeamV2.DisplayName, and is useful for accessing the field via an interface.
+func (v *FindTeamByIDTeamTeamQueryTeamV2) GetDisplayName() string { return v.DisplayName }
+
+// ListTeamsThatContainMemberResponse is returned by ListTeamsThatContainMember on success.
+type ListTeamsThatContainMemberResponse struct {
+	// Team-related queries
+	Team ListTeamsThatContainMemberTeamTeamQuery `json:"team"`
+}
+
+// GetTeam returns ListTeamsThatContainMemberResponse.Team, and is useful for accessing the field via an interface.
+func (v *ListTeamsThatContainMemberResponse) GetTeam() ListTeamsThatContainMemberTeamTeamQuery {
+	return v.Team
+}
+
+// ListTeamsThatContainMemberTeamTeamQuery includes the requested fields of the GraphQL type TeamQuery.
+type ListTeamsThatContainMemberTeamTeamQuery struct {
 	// Returns the search result for teams matching the given query in the specified site and organization. Please provide
 	// siteId if present, in its raw id form (i.e. not ARI). If siteId is not present, please provide "None" string.
 	// Query can be empty.
@@ -63,61 +127,61 @@ type FindMembersTeamsTeamTeamQuery struct {
 	// The field is extremely unstable. It can go through changes at any moment, and
 	// its execution can be slow and/or unreliable. Clients should use it with care
 	// and at their own risk!
-	TeamSearchV2 FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 `json:"teamSearchV2"`
+	TeamSearchV2 ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 `json:"teamSearchV2"`
 }
 
-// GetTeamSearchV2 returns FindMembersTeamsTeamTeamQuery.TeamSearchV2, and is useful for accessing the field via an interface.
-func (v *FindMembersTeamsTeamTeamQuery) GetTeamSearchV2() FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 {
+// GetTeamSearchV2 returns ListTeamsThatContainMemberTeamTeamQuery.TeamSearchV2, and is useful for accessing the field via an interface.
+func (v *ListTeamsThatContainMemberTeamTeamQuery) GetTeamSearchV2() ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 {
 	return v.TeamSearchV2
 }
 
-// FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 includes the requested fields of the GraphQL type TeamSearchResultConnectionV2.
+// ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 includes the requested fields of the GraphQL type TeamSearchResultConnectionV2.
 // The GraphQL type's documentation follows.
 //
 // The result of the search for teams.
-type FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 struct {
+type ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 struct {
 	// Cursor for the next page of results
-	PageInfo FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo `json:"pageInfo"`
+	PageInfo ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo `json:"pageInfo"`
 	// Teams matching the search
-	Nodes []FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 `json:"nodes"`
+	Nodes []ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 `json:"nodes"`
 }
 
-// GetPageInfo returns FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2.PageInfo, and is useful for accessing the field via an interface.
-func (v *FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2) GetPageInfo() FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo {
+// GetPageInfo returns ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2.PageInfo, and is useful for accessing the field via an interface.
+func (v *ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2) GetPageInfo() ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo {
 	return v.PageInfo
 }
 
-// GetNodes returns FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2.Nodes, and is useful for accessing the field via an interface.
-func (v *FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2) GetNodes() []FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 {
+// GetNodes returns ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2.Nodes, and is useful for accessing the field via an interface.
+func (v *ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2) GetNodes() []ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 {
 	return v.Nodes
 }
 
-// FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 includes the requested fields of the GraphQL type TeamSearchResultV2.
+// ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 includes the requested fields of the GraphQL type TeamSearchResultV2.
 // The GraphQL type's documentation follows.
 //
 // Team returned in search
-type FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 struct {
+type ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 struct {
 	// Number of members in the team.
 	MemberCount int `json:"memberCount"`
 	// The Team matching the search.
-	Team FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 `json:"team"`
+	Team ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 `json:"team"`
 }
 
-// GetMemberCount returns FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2.MemberCount, and is useful for accessing the field via an interface.
-func (v *FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2) GetMemberCount() int {
+// GetMemberCount returns ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2.MemberCount, and is useful for accessing the field via an interface.
+func (v *ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2) GetMemberCount() int {
 	return v.MemberCount
 }
 
-// GetTeam returns FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2.Team, and is useful for accessing the field via an interface.
-func (v *FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2) GetTeam() FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 {
+// GetTeam returns ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2.Team, and is useful for accessing the field via an interface.
+func (v *ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2) GetTeam() ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 {
 	return v.Team
 }
 
-// FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 includes the requested fields of the GraphQL type TeamV2.
+// ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 includes the requested fields of the GraphQL type TeamV2.
 // The GraphQL type's documentation follows.
 //
 // Team returned in a team query
-type FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 struct {
+type ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 struct {
 	// ID of the team
 	Id string `json:"id"`
 	// Organisation ID of the team
@@ -130,38 +194,38 @@ type FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesT
 	Description string `json:"description"`
 }
 
-// GetId returns FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.Id, and is useful for accessing the field via an interface.
-func (v *FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetId() string {
+// GetId returns ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.Id, and is useful for accessing the field via an interface.
+func (v *ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetId() string {
 	return v.Id
 }
 
-// GetOrganizationId returns FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.OrganizationId, and is useful for accessing the field via an interface.
-func (v *FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetOrganizationId() string {
+// GetOrganizationId returns ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.OrganizationId, and is useful for accessing the field via an interface.
+func (v *ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetOrganizationId() string {
 	return v.OrganizationId
 }
 
-// GetState returns FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.State, and is useful for accessing the field via an interface.
-func (v *FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetState() TeamStateV2 {
+// GetState returns ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.State, and is useful for accessing the field via an interface.
+func (v *ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetState() TeamStateV2 {
 	return v.State
 }
 
-// GetDisplayName returns FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.DisplayName, and is useful for accessing the field via an interface.
-func (v *FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetDisplayName() string {
+// GetDisplayName returns ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.DisplayName, and is useful for accessing the field via an interface.
+func (v *ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetDisplayName() string {
 	return v.DisplayName
 }
 
-// GetDescription returns FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.Description, and is useful for accessing the field via an interface.
-func (v *FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetDescription() string {
+// GetDescription returns ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.Description, and is useful for accessing the field via an interface.
+func (v *ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetDescription() string {
 	return v.Description
 }
 
-// FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo includes the requested fields of the GraphQL type PageInfo.
+// ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo includes the requested fields of the GraphQL type PageInfo.
 // The GraphQL type's documentation follows.
 //
 // Relay-style PageInfo type.
 //
 // See [PageInfo specification](https://relay.dev/assets/files/connections-932f4f2cdffd79724ac76373deb30dc8.htm#sec-undefined.PageInfo)
-type FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo struct {
+type ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo struct {
 	// `hasNextPage` is used to indicate whether more edges exist following the set
 	// defined by the clients arguments. If the client is paginating
 	// with `first` / `after`, then the server must return true if further edges
@@ -217,40 +281,43 @@ type FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageIn
 	EndCursor string `json:"endCursor"`
 }
 
-// GetHasNextPage returns FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.HasNextPage, and is useful for accessing the field via an interface.
-func (v *FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetHasNextPage() bool {
+// GetHasNextPage returns ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.HasNextPage, and is useful for accessing the field via an interface.
+func (v *ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetHasNextPage() bool {
 	return v.HasNextPage
 }
 
-// GetHasPreviousPage returns FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.HasPreviousPage, and is useful for accessing the field via an interface.
-func (v *FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetHasPreviousPage() bool {
+// GetHasPreviousPage returns ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.HasPreviousPage, and is useful for accessing the field via an interface.
+func (v *ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetHasPreviousPage() bool {
 	return v.HasPreviousPage
 }
 
-// GetStartCursor returns FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.StartCursor, and is useful for accessing the field via an interface.
-func (v *FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetStartCursor() string {
+// GetStartCursor returns ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.StartCursor, and is useful for accessing the field via an interface.
+func (v *ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetStartCursor() string {
 	return v.StartCursor
 }
 
-// GetEndCursor returns FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.EndCursor, and is useful for accessing the field via an interface.
-func (v *FindMembersTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetEndCursor() string {
+// GetEndCursor returns ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.EndCursor, and is useful for accessing the field via an interface.
+func (v *ListTeamsThatContainMemberTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetEndCursor() string {
 	return v.EndCursor
 }
 
-// QueryForTeamResponse is returned by QueryForTeam on success.
-type QueryForTeamResponse struct {
+// SearchForTeamsEmbedMembersResponse is returned by SearchForTeamsEmbedMembers on success.
+type SearchForTeamsEmbedMembersResponse struct {
 	// Team-related queries
-	Team QueryForTeamTeamTeamQuery `json:"team"`
+	Team SearchForTeamsEmbedMembersTeamTeamQuery `json:"team"`
 }
 
-// GetTeam returns QueryForTeamResponse.Team, and is useful for accessing the field via an interface.
-func (v *QueryForTeamResponse) GetTeam() QueryForTeamTeamTeamQuery { return v.Team }
+// GetTeam returns SearchForTeamsEmbedMembersResponse.Team, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersResponse) GetTeam() SearchForTeamsEmbedMembersTeamTeamQuery {
+	return v.Team
+}
 
-// QueryForTeamTeamTeamQuery includes the requested fields of the GraphQL type TeamQuery.
-type QueryForTeamTeamTeamQuery struct {
-	// Returns the team with the given ARI in the specified site.
-	// Please provide the siteId if present, in its raw id form (i.e. not ARI).
-	// If siteId is not present, please provide "None" string.
+// SearchForTeamsEmbedMembersTeamTeamQuery includes the requested fields of the GraphQL type TeamQuery.
+type SearchForTeamsEmbedMembersTeamTeamQuery struct {
+	// Returns the search result for teams matching the given query in the specified site and organization. Please provide
+	// siteId if present, in its raw id form (i.e. not ARI). If siteId is not present, please provide "None" string.
+	// Query can be empty.
+	// Optionally a limit, sort and a cursor can be supplied.
 	//
 	// |Authentication Category    |Callable      |
 	// |:--------------------------|:-------------|
@@ -270,34 +337,907 @@ type QueryForTeamTeamTeamQuery struct {
 	//
 	// This field is in the 'EXPERIMENTAL' lifecycle stage
 	//
-	// To query this field a client will need to add the '@optIn(to: "Team-v2")'
-	// query directive to the 'teamV2' field, or to any of its parents.
+	// To query this field a client will need to add the '@optIn(to:
+	// "Team-search-v2")' query directive to the 'teamSearchV2' field, or to any of its parents.
 	//
 	// The field is extremely unstable. It can go through changes at any moment, and
 	// its execution can be slow and/or unreliable. Clients should use it with care
 	// and at their own risk!
-	TeamV2 QueryForTeamTeamTeamQueryTeamV2 `json:"teamV2"`
+	TeamSearchV2 SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 `json:"teamSearchV2"`
 }
 
-// GetTeamV2 returns QueryForTeamTeamTeamQuery.TeamV2, and is useful for accessing the field via an interface.
-func (v *QueryForTeamTeamTeamQuery) GetTeamV2() QueryForTeamTeamTeamQueryTeamV2 { return v.TeamV2 }
+// GetTeamSearchV2 returns SearchForTeamsEmbedMembersTeamTeamQuery.TeamSearchV2, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQuery) GetTeamSearchV2() SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 {
+	return v.TeamSearchV2
+}
 
-// QueryForTeamTeamTeamQueryTeamV2 includes the requested fields of the GraphQL type TeamV2.
+// SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 includes the requested fields of the GraphQL type TeamSearchResultConnectionV2.
+// The GraphQL type's documentation follows.
+//
+// The result of the search for teams.
+type SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 struct {
+	// Cursor for the next page of results
+	PageInfo SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo `json:"pageInfo"`
+	// Teams matching the search
+	Nodes []SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 `json:"nodes"`
+}
+
+// GetPageInfo returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2.PageInfo, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2) GetPageInfo() SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo {
+	return v.PageInfo
+}
+
+// GetNodes returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2.Nodes, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2) GetNodes() []SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 {
+	return v.Nodes
+}
+
+// SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 includes the requested fields of the GraphQL type TeamSearchResultV2.
+// The GraphQL type's documentation follows.
+//
+// Team returned in search
+type SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 struct {
+	// Number of members in the team.
+	MemberCount int `json:"memberCount"`
+	// The Team matching the search.
+	Team SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 `json:"team"`
+}
+
+// GetMemberCount returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2.MemberCount, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2) GetMemberCount() int {
+	return v.MemberCount
+}
+
+// GetTeam returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2.Team, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2) GetTeam() SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 {
+	return v.Team
+}
+
+// SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 includes the requested fields of the GraphQL type TeamV2.
 // The GraphQL type's documentation follows.
 //
 // Team returned in a team query
-type QueryForTeamTeamTeamQueryTeamV2 struct {
+type SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 struct {
 	// ID of the team
 	Id string `json:"id"`
+	// Organisation ID of the team
+	OrganizationId string `json:"organizationId"`
+	// The state of the team
+	State TeamStateV2 `json:"state"`
 	// Display name of the team
 	DisplayName string `json:"displayName"`
+	// Description of the team
+	Description string `json:"description"`
+	// Returns member data for the 'first' number of members after a cursor denoted by 'after' with membership state 'state'
+	// If 'after' is null, member data will return from the top of the list of members.
+	// 'first' must be greater than 0 and not null.
+	// 'state' must take at least one membership state value and will include all members with those membership states
+	//
+	// ### OAuth Scopes
+	//
+	// One of the following scopes will need to be present on OAuth requests to get data from this field
+	//
+	// * __view:membership:teams__
+	Members SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2 `json:"members"`
 }
 
-// GetId returns QueryForTeamTeamTeamQueryTeamV2.Id, and is useful for accessing the field via an interface.
-func (v *QueryForTeamTeamTeamQueryTeamV2) GetId() string { return v.Id }
+// GetId returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.Id, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetId() string {
+	return v.Id
+}
 
-// GetDisplayName returns QueryForTeamTeamTeamQueryTeamV2.DisplayName, and is useful for accessing the field via an interface.
-func (v *QueryForTeamTeamTeamQueryTeamV2) GetDisplayName() string { return v.DisplayName }
+// GetOrganizationId returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.OrganizationId, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetOrganizationId() string {
+	return v.OrganizationId
+}
+
+// GetState returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.State, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetState() TeamStateV2 {
+	return v.State
+}
+
+// GetDisplayName returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.DisplayName, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetDisplayName() string {
+	return v.DisplayName
+}
+
+// GetDescription returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.Description, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetDescription() string {
+	return v.Description
+}
+
+// GetMembers returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.Members, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetMembers() SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2 {
+	return v.Members
+}
+
+// SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2 includes the requested fields of the GraphQL type TeamMemberConnectionV2.
+// The GraphQL type's documentation follows.
+//
+// The connection entity for the members of a team for pagination
+type SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2 struct {
+	// Cursor for the next page of results
+	PageInfo SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo `json:"pageInfo"`
+	// Team members matching the search
+	Nodes []SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2 `json:"nodes"`
+}
+
+// GetPageInfo returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2.PageInfo, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2) GetPageInfo() SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo {
+	return v.PageInfo
+}
+
+// GetNodes returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2.Nodes, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2) GetNodes() []SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2 {
+	return v.Nodes
+}
+
+// SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2 includes the requested fields of the GraphQL type TeamMemberV2.
+// The GraphQL type's documentation follows.
+//
+// Returns the details of the team member and details about their membership within a team
+type SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2 struct {
+	// Membership state
+	State TeamMembershipState `json:"state"`
+	// Member's role in the team
+	Role TeamMembershipRole `json:"role"`
+	// The user details of the team member
+	Member SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser `json:"-"`
+}
+
+// GetState returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2.State, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2) GetState() TeamMembershipState {
+	return v.State
+}
+
+// GetRole returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2.Role, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2) GetRole() TeamMembershipRole {
+	return v.Role
+}
+
+// GetMember returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2.Member, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2) GetMember() SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser {
+	return v.Member
+}
+
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2) UnmarshalJSON(b []byte) error {
+
+	if string(b) == "null" {
+		return nil
+	}
+
+	var firstPass struct {
+		*SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2
+		Member json.RawMessage `json:"member"`
+		graphql.NoUnmarshalJSON
+	}
+	firstPass.SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2 = v
+
+	err := json.Unmarshal(b, &firstPass)
+	if err != nil {
+		return err
+	}
+
+	{
+		dst := &v.Member
+		src := firstPass.Member
+		if len(src) != 0 && string(src) != "null" {
+			err = __unmarshalSearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser(
+				src, dst)
+			if err != nil {
+				return fmt.Errorf(
+					"unable to unmarshal SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2.Member: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+type __premarshalSearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2 struct {
+	State TeamMembershipState `json:"state"`
+
+	Role TeamMembershipRole `json:"role"`
+
+	Member json.RawMessage `json:"member"`
+}
+
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2) MarshalJSON() ([]byte, error) {
+	premarshaled, err := v.__premarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(premarshaled)
+}
+
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2) __premarshalJSON() (*__premarshalSearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2, error) {
+	var retval __premarshalSearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2
+
+	retval.State = v.State
+	retval.Role = v.Role
+	{
+
+		dst := &retval.Member
+		src := v.Member
+		var err error
+		*dst, err = __marshalSearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser(
+			&src)
+		if err != nil {
+			return nil, fmt.Errorf(
+				"unable to marshal SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2.Member: %w", err)
+		}
+	}
+	return &retval, nil
+}
+
+// SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser includes the requested fields of the GraphQL type AppUser.
+// The GraphQL type's documentation follows.
+//
+// # This does not represent a real person but rather the identity that backs an installed application
+//
+// # See the documentation on the `User` for more details
+//
+// ### OAuth Scopes
+//
+// # One of the following scopes will need to be present on OAuth requests to get data from this field
+//
+// * __identity:atlassian-external__
+// * __read:account__
+type SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser struct {
+	Typename string `json:"__typename"`
+	// The account ID for the user.  This is an alias for `canonicalAccountId`
+	Id string `json:"id"`
+	// The lifecycle status of the account
+	AccountStatus AccountStatus `json:"accountStatus"`
+	// The display name of the user. This should be used when rendering a user textually within content.
+	// If the user has restricted visibility of their name, their nickname will be
+	// displayed as a substitute value.
+	Name string `json:"name"`
+	// The account ID for the user.
+	AccountId string `json:"accountId"`
+}
+
+// GetTypename returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser.Typename, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser) GetTypename() string {
+	return v.Typename
+}
+
+// GetId returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser.Id, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser) GetId() string {
+	return v.Id
+}
+
+// GetAccountStatus returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser.AccountStatus, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser) GetAccountStatus() AccountStatus {
+	return v.AccountStatus
+}
+
+// GetName returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser.Name, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser) GetName() string {
+	return v.Name
+}
+
+// GetAccountId returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser.AccountId, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser) GetAccountId() string {
+	return v.AccountId
+}
+
+// SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser includes the requested fields of the GraphQL type AtlassianAccountUser.
+// The GraphQL type's documentation follows.
+//
+// # This represents a real person that has an account in a wide range of Atlassian products
+//
+// # See the documentation on the `User` and `LocalizationContext` for more details
+//
+// ### OAuth Scopes
+//
+// # One of the following scopes will need to be present on OAuth requests to get data from this field
+//
+// * __identity:atlassian-external__
+// * __read:account__
+type SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser struct {
+	Typename string `json:"__typename"`
+	Email    string `json:"email"`
+	// The account ID for the user.  This is an alias for `canonicalAccountId`
+	Id string `json:"id"`
+	// The lifecycle status of the account
+	AccountStatus AccountStatus `json:"accountStatus"`
+	// The display name of the user. This should be used when rendering a user textually within content.
+	// If the user has restricted visibility of their name, their nickname will be
+	// displayed as a substitute value.
+	Name string `json:"name"`
+	// The account ID for the user.
+	AccountId string `json:"accountId"`
+}
+
+// GetTypename returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser.Typename, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser) GetTypename() string {
+	return v.Typename
+}
+
+// GetEmail returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser.Email, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser) GetEmail() string {
+	return v.Email
+}
+
+// GetId returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser.Id, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser) GetId() string {
+	return v.Id
+}
+
+// GetAccountStatus returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser.AccountStatus, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser) GetAccountStatus() AccountStatus {
+	return v.AccountStatus
+}
+
+// GetName returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser.Name, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser) GetName() string {
+	return v.Name
+}
+
+// GetAccountId returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser.AccountId, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser) GetAccountId() string {
+	return v.AccountId
+}
+
+// SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser includes the requested fields of the GraphQL type CustomerUser.
+// The GraphQL type's documentation follows.
+//
+// # This represents a real person that has an free account within the Jira Service Desk product
+//
+// # See the documentation on the `User` and `LocalizationContext` for more details
+//
+// ### OAuth Scopes
+//
+// # One of the following scopes will need to be present on OAuth requests to get data from this field
+//
+// * __identity:atlassian-external__
+// * __read:account__
+type SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser struct {
+	Typename string `json:"__typename"`
+	// The account ID for the user.  This is an alias for `canonicalAccountId`
+	Id string `json:"id"`
+	// The lifecycle status of the account
+	AccountStatus AccountStatus `json:"accountStatus"`
+	// The display name of the user. This should be used when rendering a user textually within content.
+	// If the user has restricted visibility of their name, their nickname will be
+	// displayed as a substitute value.
+	Name string `json:"name"`
+	// The account ID for the user.
+	AccountId string `json:"accountId"`
+}
+
+// GetTypename returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser.Typename, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser) GetTypename() string {
+	return v.Typename
+}
+
+// GetId returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser.Id, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser) GetId() string {
+	return v.Id
+}
+
+// GetAccountStatus returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser.AccountStatus, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser) GetAccountStatus() AccountStatus {
+	return v.AccountStatus
+}
+
+// GetName returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser.Name, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser) GetName() string {
+	return v.Name
+}
+
+// GetAccountId returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser.AccountId, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser) GetAccountId() string {
+	return v.AccountId
+}
+
+// SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser includes the requested fields of the GraphQL interface User.
+//
+// SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser is implemented by the following types:
+// SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser
+// SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser
+// SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser
+// The GraphQL type's documentation follows.
+//
+// There are 3 types of accounts:
+//
+// * AtlassianAccountUser
+// * this represents a real person that has an account in a wide range of Atlassian products
+//
+// * CustomerUser
+// * This represents a real person who is a customer of an organisation who uses an
+// Atlassian product to provide service to their customers.
+// Currently, this is used within Jira Service Desk for external service desks.
+//
+// * AppUser
+// * this does not represent a real person but rather the identity that backs an installed application
+//
+// ### OAuth Scopes
+//
+// # One of the following scopes will need to be present on OAuth requests to get data from this field
+//
+// * __identity:atlassian-external__
+// * __read:account__
+type SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser interface {
+	implementsGraphQLInterfaceSearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser()
+	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
+	GetTypename() string
+	// GetId returns the interface-field "id" from its implementation.
+	// The GraphQL interface field's documentation follows.
+	//
+	// The account ID for the user.  This is an alias for `canonicalAccountId`
+	GetId() string
+	// GetAccountStatus returns the interface-field "accountStatus" from its implementation.
+	// The GraphQL interface field's documentation follows.
+	//
+	// The lifecycle status of the account
+	GetAccountStatus() AccountStatus
+	// GetName returns the interface-field "name" from its implementation.
+	// The GraphQL interface field's documentation follows.
+	//
+	// The display name of the user. This should be used when rendering a user textually within content.
+	// If the user has restricted visibility of their name, their nickname will be
+	// displayed as a substitute value.
+	GetName() string
+	// GetAccountId returns the interface-field "accountId" from its implementation.
+	// The GraphQL interface field's documentation follows.
+	//
+	// The account ID for the user.
+	GetAccountId() string
+}
+
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser) implementsGraphQLInterfaceSearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser() {
+}
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser) implementsGraphQLInterfaceSearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser() {
+}
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser) implementsGraphQLInterfaceSearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser() {
+}
+
+func __unmarshalSearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser(b []byte, v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser) error {
+	if string(b) == "null" {
+		return nil
+	}
+
+	var tn struct {
+		TypeName string `json:"__typename"`
+	}
+	err := json.Unmarshal(b, &tn)
+	if err != nil {
+		return err
+	}
+
+	switch tn.TypeName {
+	case "AppUser":
+		*v = new(SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser)
+		return json.Unmarshal(b, *v)
+	case "AtlassianAccountUser":
+		*v = new(SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser)
+		return json.Unmarshal(b, *v)
+	case "CustomerUser":
+		*v = new(SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser)
+		return json.Unmarshal(b, *v)
+	case "":
+		return fmt.Errorf(
+			"response was missing User.__typename")
+	default:
+		return fmt.Errorf(
+			`unexpected concrete type for SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser: "%v"`, tn.TypeName)
+	}
+}
+
+func __marshalSearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser(v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser) ([]byte, error) {
+
+	var typename string
+	switch v := (*v).(type) {
+	case *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser:
+		typename = "AppUser"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser
+		}{typename, v}
+		return json.Marshal(result)
+	case *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser:
+		typename = "AtlassianAccountUser"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser
+		}{typename, v}
+		return json.Marshal(result)
+	case *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser:
+		typename = "CustomerUser"
+
+		result := struct {
+			TypeName string `json:"__typename"`
+			*SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser
+		}{typename, v}
+		return json.Marshal(result)
+	case nil:
+		return []byte("null"), nil
+	default:
+		return nil, fmt.Errorf(
+			`unexpected concrete type for SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser: "%T"`, v)
+	}
+}
+
+// SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo includes the requested fields of the GraphQL type PageInfo.
+// The GraphQL type's documentation follows.
+//
+// Relay-style PageInfo type.
+//
+// See [PageInfo specification](https://relay.dev/assets/files/connections-932f4f2cdffd79724ac76373deb30dc8.htm#sec-undefined.PageInfo)
+type SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo struct {
+	// `hasNextPage` is used to indicate whether more edges exist following the set
+	// defined by the clients arguments. If the client is paginating
+	// with `first` / `after`, then the server must return true if further edges
+	// exist, otherwise false. If the client is paginating with `last` / `before`,
+	// then the client may return true if edges further from before exist, if it can
+	// do so efficiently, otherwise may return false.
+	//
+	// |Authentication Category    |Callable      |
+	// |:--------------------------|:-------------|
+	// | SESSION | ✅ Yes |
+	// | API_TOKEN | ✅ Yes |
+	// | CONTAINER_TOKEN | ❌ No |
+	// | FIRST_PARTY_OAUTH | ❌ No |
+	// | THIRD_PARTY_OAUTH | ❌ No |
+	// | UNAUTHENTICATED | ✅ Yes |
+	HasNextPage bool `json:"hasNextPage"`
+	// `hasPreviousPage` is used to indicate whether more edges exist prior to the
+	// set defined by the clients arguments. If the client is paginating
+	// with `last` / `before`, then the server must return true if prior edges exist,
+	// otherwise false. If the client is paginating with `first` / `after`,
+	// then the client may return true if edges prior to after exist, if it can do so efficiently, otherwise may return false.
+	//
+	// |Authentication Category    |Callable      |
+	// |:--------------------------|:-------------|
+	// | SESSION | ✅ Yes |
+	// | API_TOKEN | ✅ Yes |
+	// | CONTAINER_TOKEN | ❌ No |
+	// | FIRST_PARTY_OAUTH | ❌ No |
+	// | THIRD_PARTY_OAUTH | ❌ No |
+	// | UNAUTHENTICATED | ✅ Yes |
+	HasPreviousPage bool `json:"hasPreviousPage"`
+	// startCursor must be the cursor corresponding to the first node in `edges`.
+	//
+	// |Authentication Category    |Callable      |
+	// |:--------------------------|:-------------|
+	// | SESSION | ✅ Yes |
+	// | API_TOKEN | ✅ Yes |
+	// | CONTAINER_TOKEN | ❌ No |
+	// | FIRST_PARTY_OAUTH | ❌ No |
+	// | THIRD_PARTY_OAUTH | ❌ No |
+	// | UNAUTHENTICATED | ✅ Yes |
+	StartCursor string `json:"startCursor"`
+	// endCursor must be the cursor corresponding to the last node in `edges`.
+	//
+	// |Authentication Category    |Callable      |
+	// |:--------------------------|:-------------|
+	// | SESSION | ✅ Yes |
+	// | API_TOKEN | ✅ Yes |
+	// | CONTAINER_TOKEN | ❌ No |
+	// | FIRST_PARTY_OAUTH | ❌ No |
+	// | THIRD_PARTY_OAUTH | ❌ No |
+	// | UNAUTHENTICATED | ✅ Yes |
+	EndCursor string `json:"endCursor"`
+}
+
+// GetHasNextPage returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo.HasNextPage, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo) GetHasNextPage() bool {
+	return v.HasNextPage
+}
+
+// GetHasPreviousPage returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo.HasPreviousPage, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo) GetHasPreviousPage() bool {
+	return v.HasPreviousPage
+}
+
+// GetStartCursor returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo.StartCursor, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo) GetStartCursor() string {
+	return v.StartCursor
+}
+
+// GetEndCursor returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo.EndCursor, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo) GetEndCursor() string {
+	return v.EndCursor
+}
+
+// SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo includes the requested fields of the GraphQL type PageInfo.
+// The GraphQL type's documentation follows.
+//
+// Relay-style PageInfo type.
+//
+// See [PageInfo specification](https://relay.dev/assets/files/connections-932f4f2cdffd79724ac76373deb30dc8.htm#sec-undefined.PageInfo)
+type SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo struct {
+	// `hasNextPage` is used to indicate whether more edges exist following the set
+	// defined by the clients arguments. If the client is paginating
+	// with `first` / `after`, then the server must return true if further edges
+	// exist, otherwise false. If the client is paginating with `last` / `before`,
+	// then the client may return true if edges further from before exist, if it can
+	// do so efficiently, otherwise may return false.
+	//
+	// |Authentication Category    |Callable      |
+	// |:--------------------------|:-------------|
+	// | SESSION | ✅ Yes |
+	// | API_TOKEN | ✅ Yes |
+	// | CONTAINER_TOKEN | ❌ No |
+	// | FIRST_PARTY_OAUTH | ❌ No |
+	// | THIRD_PARTY_OAUTH | ❌ No |
+	// | UNAUTHENTICATED | ✅ Yes |
+	HasNextPage bool `json:"hasNextPage"`
+	// `hasPreviousPage` is used to indicate whether more edges exist prior to the
+	// set defined by the clients arguments. If the client is paginating
+	// with `last` / `before`, then the server must return true if prior edges exist,
+	// otherwise false. If the client is paginating with `first` / `after`,
+	// then the client may return true if edges prior to after exist, if it can do so efficiently, otherwise may return false.
+	//
+	// |Authentication Category    |Callable      |
+	// |:--------------------------|:-------------|
+	// | SESSION | ✅ Yes |
+	// | API_TOKEN | ✅ Yes |
+	// | CONTAINER_TOKEN | ❌ No |
+	// | FIRST_PARTY_OAUTH | ❌ No |
+	// | THIRD_PARTY_OAUTH | ❌ No |
+	// | UNAUTHENTICATED | ✅ Yes |
+	HasPreviousPage bool `json:"hasPreviousPage"`
+	// startCursor must be the cursor corresponding to the first node in `edges`.
+	//
+	// |Authentication Category    |Callable      |
+	// |:--------------------------|:-------------|
+	// | SESSION | ✅ Yes |
+	// | API_TOKEN | ✅ Yes |
+	// | CONTAINER_TOKEN | ❌ No |
+	// | FIRST_PARTY_OAUTH | ❌ No |
+	// | THIRD_PARTY_OAUTH | ❌ No |
+	// | UNAUTHENTICATED | ✅ Yes |
+	StartCursor string `json:"startCursor"`
+	// endCursor must be the cursor corresponding to the last node in `edges`.
+	//
+	// |Authentication Category    |Callable      |
+	// |:--------------------------|:-------------|
+	// | SESSION | ✅ Yes |
+	// | API_TOKEN | ✅ Yes |
+	// | CONTAINER_TOKEN | ❌ No |
+	// | FIRST_PARTY_OAUTH | ❌ No |
+	// | THIRD_PARTY_OAUTH | ❌ No |
+	// | UNAUTHENTICATED | ✅ Yes |
+	EndCursor string `json:"endCursor"`
+}
+
+// GetHasNextPage returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.HasNextPage, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetHasNextPage() bool {
+	return v.HasNextPage
+}
+
+// GetHasPreviousPage returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.HasPreviousPage, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetHasPreviousPage() bool {
+	return v.HasPreviousPage
+}
+
+// GetStartCursor returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.StartCursor, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetStartCursor() string {
+	return v.StartCursor
+}
+
+// GetEndCursor returns SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.EndCursor, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsEmbedMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetEndCursor() string {
+	return v.EndCursor
+}
+
+// SearchForTeamsResponse is returned by SearchForTeams on success.
+type SearchForTeamsResponse struct {
+	// Team-related queries
+	Team SearchForTeamsTeamTeamQuery `json:"team"`
+}
+
+// GetTeam returns SearchForTeamsResponse.Team, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsResponse) GetTeam() SearchForTeamsTeamTeamQuery { return v.Team }
+
+// SearchForTeamsTeamTeamQuery includes the requested fields of the GraphQL type TeamQuery.
+type SearchForTeamsTeamTeamQuery struct {
+	// Returns the search result for teams matching the given query in the specified site and organization. Please provide
+	// siteId if present, in its raw id form (i.e. not ARI). If siteId is not present, please provide "None" string.
+	// Query can be empty.
+	// Optionally a limit, sort and a cursor can be supplied.
+	//
+	// |Authentication Category    |Callable      |
+	// |:--------------------------|:-------------|
+	// | SESSION | ✅ Yes |
+	// | API_TOKEN | ✅ Yes |
+	// | CONTAINER_TOKEN | ❌ No |
+	// | FIRST_PARTY_OAUTH | ❌ No |
+	// | THIRD_PARTY_OAUTH | ✅ Yes |
+	// | UNAUTHENTICATED | ❌ No |
+	// ### OAuth Scopes
+	//
+	// One of the following scopes will need to be present on OAuth requests to get data from this field
+	//
+	// * __view:team:teams__
+	//
+	// ### Field lifecycle
+	//
+	// This field is in the 'EXPERIMENTAL' lifecycle stage
+	//
+	// To query this field a client will need to add the '@optIn(to:
+	// "Team-search-v2")' query directive to the 'teamSearchV2' field, or to any of its parents.
+	//
+	// The field is extremely unstable. It can go through changes at any moment, and
+	// its execution can be slow and/or unreliable. Clients should use it with care
+	// and at their own risk!
+	TeamSearchV2 SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 `json:"teamSearchV2"`
+}
+
+// GetTeamSearchV2 returns SearchForTeamsTeamTeamQuery.TeamSearchV2, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsTeamTeamQuery) GetTeamSearchV2() SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 {
+	return v.TeamSearchV2
+}
+
+// SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 includes the requested fields of the GraphQL type TeamSearchResultConnectionV2.
+// The GraphQL type's documentation follows.
+//
+// The result of the search for teams.
+type SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 struct {
+	// Cursor for the next page of results
+	PageInfo SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo `json:"pageInfo"`
+	// Teams matching the search
+	Nodes []SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 `json:"nodes"`
+}
+
+// GetPageInfo returns SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2.PageInfo, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2) GetPageInfo() SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo {
+	return v.PageInfo
+}
+
+// GetNodes returns SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2.Nodes, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2) GetNodes() []SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 {
+	return v.Nodes
+}
+
+// SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 includes the requested fields of the GraphQL type TeamSearchResultV2.
+// The GraphQL type's documentation follows.
+//
+// Team returned in search
+type SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 struct {
+	// Number of members in the team.
+	MemberCount int `json:"memberCount"`
+	// The Team matching the search.
+	Team SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 `json:"team"`
+}
+
+// GetMemberCount returns SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2.MemberCount, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2) GetMemberCount() int {
+	return v.MemberCount
+}
+
+// GetTeam returns SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2.Team, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2) GetTeam() SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 {
+	return v.Team
+}
+
+// SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 includes the requested fields of the GraphQL type TeamV2.
+// The GraphQL type's documentation follows.
+//
+// Team returned in a team query
+type SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 struct {
+	// ID of the team
+	Id string `json:"id"`
+	// Organisation ID of the team
+	OrganizationId string `json:"organizationId"`
+	// The state of the team
+	State TeamStateV2 `json:"state"`
+	// Display name of the team
+	DisplayName string `json:"displayName"`
+	// Description of the team
+	Description string `json:"description"`
+}
+
+// GetId returns SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.Id, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetId() string {
+	return v.Id
+}
+
+// GetOrganizationId returns SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.OrganizationId, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetOrganizationId() string {
+	return v.OrganizationId
+}
+
+// GetState returns SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.State, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetState() TeamStateV2 {
+	return v.State
+}
+
+// GetDisplayName returns SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.DisplayName, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetDisplayName() string {
+	return v.DisplayName
+}
+
+// GetDescription returns SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.Description, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetDescription() string {
+	return v.Description
+}
+
+// SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo includes the requested fields of the GraphQL type PageInfo.
+// The GraphQL type's documentation follows.
+//
+// Relay-style PageInfo type.
+//
+// See [PageInfo specification](https://relay.dev/assets/files/connections-932f4f2cdffd79724ac76373deb30dc8.htm#sec-undefined.PageInfo)
+type SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo struct {
+	// `hasNextPage` is used to indicate whether more edges exist following the set
+	// defined by the clients arguments. If the client is paginating
+	// with `first` / `after`, then the server must return true if further edges
+	// exist, otherwise false. If the client is paginating with `last` / `before`,
+	// then the client may return true if edges further from before exist, if it can
+	// do so efficiently, otherwise may return false.
+	//
+	// |Authentication Category    |Callable      |
+	// |:--------------------------|:-------------|
+	// | SESSION | ✅ Yes |
+	// | API_TOKEN | ✅ Yes |
+	// | CONTAINER_TOKEN | ❌ No |
+	// | FIRST_PARTY_OAUTH | ❌ No |
+	// | THIRD_PARTY_OAUTH | ❌ No |
+	// | UNAUTHENTICATED | ✅ Yes |
+	HasNextPage bool `json:"hasNextPage"`
+	// `hasPreviousPage` is used to indicate whether more edges exist prior to the
+	// set defined by the clients arguments. If the client is paginating
+	// with `last` / `before`, then the server must return true if prior edges exist,
+	// otherwise false. If the client is paginating with `first` / `after`,
+	// then the client may return true if edges prior to after exist, if it can do so efficiently, otherwise may return false.
+	//
+	// |Authentication Category    |Callable      |
+	// |:--------------------------|:-------------|
+	// | SESSION | ✅ Yes |
+	// | API_TOKEN | ✅ Yes |
+	// | CONTAINER_TOKEN | ❌ No |
+	// | FIRST_PARTY_OAUTH | ❌ No |
+	// | THIRD_PARTY_OAUTH | ❌ No |
+	// | UNAUTHENTICATED | ✅ Yes |
+	HasPreviousPage bool `json:"hasPreviousPage"`
+	// startCursor must be the cursor corresponding to the first node in `edges`.
+	//
+	// |Authentication Category    |Callable      |
+	// |:--------------------------|:-------------|
+	// | SESSION | ✅ Yes |
+	// | API_TOKEN | ✅ Yes |
+	// | CONTAINER_TOKEN | ❌ No |
+	// | FIRST_PARTY_OAUTH | ❌ No |
+	// | THIRD_PARTY_OAUTH | ❌ No |
+	// | UNAUTHENTICATED | ✅ Yes |
+	StartCursor string `json:"startCursor"`
+	// endCursor must be the cursor corresponding to the last node in `edges`.
+	//
+	// |Authentication Category    |Callable      |
+	// |:--------------------------|:-------------|
+	// | SESSION | ✅ Yes |
+	// | API_TOKEN | ✅ Yes |
+	// | CONTAINER_TOKEN | ❌ No |
+	// | FIRST_PARTY_OAUTH | ❌ No |
+	// | THIRD_PARTY_OAUTH | ❌ No |
+	// | UNAUTHENTICATED | ✅ Yes |
+	EndCursor string `json:"endCursor"`
+}
+
+// GetHasNextPage returns SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.HasNextPage, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetHasNextPage() bool {
+	return v.HasNextPage
+}
+
+// GetHasPreviousPage returns SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.HasPreviousPage, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetHasPreviousPage() bool {
+	return v.HasPreviousPage
+}
+
+// GetStartCursor returns SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.StartCursor, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetStartCursor() string {
+	return v.StartCursor
+}
+
+// GetEndCursor returns SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.EndCursor, and is useful for accessing the field via an interface.
+func (v *SearchForTeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetEndCursor() string {
+	return v.EndCursor
+}
 
 // The roles that a member can have within a team
 type TeamMembershipRole string
@@ -367,944 +1307,20 @@ const (
 	TeamStateV2Purged TeamStateV2 = "PURGED"
 )
 
-// TeamWithMembersResponse is returned by TeamWithMembers on success.
-type TeamWithMembersResponse struct {
-	// Team-related queries
-	Team TeamWithMembersTeamTeamQuery `json:"team"`
+// __FindTeamByIDInput is used internally by genqlient
+type __FindTeamByIDInput struct {
+	SiteId string `json:"siteId"`
+	Query  string `json:"query"`
 }
 
-// GetTeam returns TeamWithMembersResponse.Team, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersResponse) GetTeam() TeamWithMembersTeamTeamQuery { return v.Team }
+// GetSiteId returns __FindTeamByIDInput.SiteId, and is useful for accessing the field via an interface.
+func (v *__FindTeamByIDInput) GetSiteId() string { return v.SiteId }
 
-// TeamWithMembersTeamTeamQuery includes the requested fields of the GraphQL type TeamQuery.
-type TeamWithMembersTeamTeamQuery struct {
-	// Returns the search result for teams matching the given query in the specified site and organization. Please provide
-	// siteId if present, in its raw id form (i.e. not ARI). If siteId is not present, please provide "None" string.
-	// Query can be empty.
-	// Optionally a limit, sort and a cursor can be supplied.
-	//
-	// |Authentication Category    |Callable      |
-	// |:--------------------------|:-------------|
-	// | SESSION | ✅ Yes |
-	// | API_TOKEN | ✅ Yes |
-	// | CONTAINER_TOKEN | ❌ No |
-	// | FIRST_PARTY_OAUTH | ❌ No |
-	// | THIRD_PARTY_OAUTH | ✅ Yes |
-	// | UNAUTHENTICATED | ❌ No |
-	// ### OAuth Scopes
-	//
-	// One of the following scopes will need to be present on OAuth requests to get data from this field
-	//
-	// * __view:team:teams__
-	//
-	// ### Field lifecycle
-	//
-	// This field is in the 'EXPERIMENTAL' lifecycle stage
-	//
-	// To query this field a client will need to add the '@optIn(to:
-	// "Team-search-v2")' query directive to the 'teamSearchV2' field, or to any of its parents.
-	//
-	// The field is extremely unstable. It can go through changes at any moment, and
-	// its execution can be slow and/or unreliable. Clients should use it with care
-	// and at their own risk!
-	TeamSearchV2 TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 `json:"teamSearchV2"`
-}
-
-// GetTeamSearchV2 returns TeamWithMembersTeamTeamQuery.TeamSearchV2, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQuery) GetTeamSearchV2() TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 {
-	return v.TeamSearchV2
-}
-
-// TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 includes the requested fields of the GraphQL type TeamSearchResultConnectionV2.
-// The GraphQL type's documentation follows.
-//
-// The result of the search for teams.
-type TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 struct {
-	// Cursor for the next page of results
-	PageInfo TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo `json:"pageInfo"`
-	// Teams matching the search
-	Nodes []TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 `json:"nodes"`
-}
-
-// GetPageInfo returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2.PageInfo, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2) GetPageInfo() TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo {
-	return v.PageInfo
-}
-
-// GetNodes returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2.Nodes, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2) GetNodes() []TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 {
-	return v.Nodes
-}
-
-// TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 includes the requested fields of the GraphQL type TeamSearchResultV2.
-// The GraphQL type's documentation follows.
-//
-// Team returned in search
-type TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 struct {
-	// Number of members in the team.
-	MemberCount int `json:"memberCount"`
-	// The Team matching the search.
-	Team TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 `json:"team"`
-}
-
-// GetMemberCount returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2.MemberCount, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2) GetMemberCount() int {
-	return v.MemberCount
-}
-
-// GetTeam returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2.Team, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2) GetTeam() TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 {
-	return v.Team
-}
-
-// TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 includes the requested fields of the GraphQL type TeamV2.
-// The GraphQL type's documentation follows.
-//
-// Team returned in a team query
-type TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 struct {
-	// ID of the team
-	Id string `json:"id"`
-	// Organisation ID of the team
-	OrganizationId string `json:"organizationId"`
-	// The state of the team
-	State TeamStateV2 `json:"state"`
-	// Display name of the team
-	DisplayName string `json:"displayName"`
-	// Description of the team
-	Description string `json:"description"`
-	// Returns member data for the 'first' number of members after a cursor denoted by 'after' with membership state 'state'
-	// If 'after' is null, member data will return from the top of the list of members.
-	// 'first' must be greater than 0 and not null.
-	// 'state' must take at least one membership state value and will include all members with those membership states
-	//
-	// ### OAuth Scopes
-	//
-	// One of the following scopes will need to be present on OAuth requests to get data from this field
-	//
-	// * __view:membership:teams__
-	Members TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2 `json:"members"`
-}
-
-// GetId returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.Id, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetId() string {
-	return v.Id
-}
-
-// GetOrganizationId returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.OrganizationId, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetOrganizationId() string {
-	return v.OrganizationId
-}
-
-// GetState returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.State, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetState() TeamStateV2 {
-	return v.State
-}
-
-// GetDisplayName returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.DisplayName, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetDisplayName() string {
-	return v.DisplayName
-}
-
-// GetDescription returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.Description, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetDescription() string {
-	return v.Description
-}
-
-// GetMembers returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.Members, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetMembers() TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2 {
-	return v.Members
-}
-
-// TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2 includes the requested fields of the GraphQL type TeamMemberConnectionV2.
-// The GraphQL type's documentation follows.
-//
-// The connection entity for the members of a team for pagination
-type TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2 struct {
-	// Cursor for the next page of results
-	PageInfo TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo `json:"pageInfo"`
-	// Team members matching the search
-	Nodes []TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2 `json:"nodes"`
-}
-
-// GetPageInfo returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2.PageInfo, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2) GetPageInfo() TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo {
-	return v.PageInfo
-}
-
-// GetNodes returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2.Nodes, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2) GetNodes() []TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2 {
-	return v.Nodes
-}
-
-// TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2 includes the requested fields of the GraphQL type TeamMemberV2.
-// The GraphQL type's documentation follows.
-//
-// Returns the details of the team member and details about their membership within a team
-type TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2 struct {
-	// Membership state
-	State TeamMembershipState `json:"state"`
-	// Member's role in the team
-	Role TeamMembershipRole `json:"role"`
-	// The user details of the team member
-	Member TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser `json:"-"`
-}
-
-// GetState returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2.State, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2) GetState() TeamMembershipState {
-	return v.State
-}
-
-// GetRole returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2.Role, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2) GetRole() TeamMembershipRole {
-	return v.Role
-}
-
-// GetMember returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2.Member, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2) GetMember() TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser {
-	return v.Member
-}
-
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2) UnmarshalJSON(b []byte) error {
-
-	if string(b) == "null" {
-		return nil
-	}
-
-	var firstPass struct {
-		*TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2
-		Member json.RawMessage `json:"member"`
-		graphql.NoUnmarshalJSON
-	}
-	firstPass.TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2 = v
-
-	err := json.Unmarshal(b, &firstPass)
-	if err != nil {
-		return err
-	}
-
-	{
-		dst := &v.Member
-		src := firstPass.Member
-		if len(src) != 0 && string(src) != "null" {
-			err = __unmarshalTeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser(
-				src, dst)
-			if err != nil {
-				return fmt.Errorf(
-					"unable to unmarshal TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2.Member: %w", err)
-			}
-		}
-	}
-	return nil
-}
-
-type __premarshalTeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2 struct {
-	State TeamMembershipState `json:"state"`
-
-	Role TeamMembershipRole `json:"role"`
-
-	Member json.RawMessage `json:"member"`
-}
-
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2) MarshalJSON() ([]byte, error) {
-	premarshaled, err := v.__premarshalJSON()
-	if err != nil {
-		return nil, err
-	}
-	return json.Marshal(premarshaled)
-}
-
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2) __premarshalJSON() (*__premarshalTeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2, error) {
-	var retval __premarshalTeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2
-
-	retval.State = v.State
-	retval.Role = v.Role
-	{
-
-		dst := &retval.Member
-		src := v.Member
-		var err error
-		*dst, err = __marshalTeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser(
-			&src)
-		if err != nil {
-			return nil, fmt.Errorf(
-				"unable to marshal TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2.Member: %w", err)
-		}
-	}
-	return &retval, nil
-}
-
-// TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser includes the requested fields of the GraphQL type AppUser.
-// The GraphQL type's documentation follows.
-//
-// # This does not represent a real person but rather the identity that backs an installed application
-//
-// # See the documentation on the `User` for more details
-//
-// ### OAuth Scopes
-//
-// # One of the following scopes will need to be present on OAuth requests to get data from this field
-//
-// * __identity:atlassian-external__
-// * __read:account__
-type TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser struct {
-	Typename string `json:"__typename"`
-	// The account ID for the user.  This is an alias for `canonicalAccountId`
-	Id string `json:"id"`
-	// The lifecycle status of the account
-	AccountStatus AccountStatus `json:"accountStatus"`
-	// The display name of the user. This should be used when rendering a user textually within content.
-	// If the user has restricted visibility of their name, their nickname will be
-	// displayed as a substitute value.
-	Name string `json:"name"`
-	// The account ID for the user.
-	AccountId string `json:"accountId"`
-}
-
-// GetTypename returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser.Typename, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser) GetTypename() string {
-	return v.Typename
-}
-
-// GetId returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser.Id, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser) GetId() string {
-	return v.Id
-}
-
-// GetAccountStatus returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser.AccountStatus, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser) GetAccountStatus() AccountStatus {
-	return v.AccountStatus
-}
-
-// GetName returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser.Name, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser) GetName() string {
-	return v.Name
-}
-
-// GetAccountId returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser.AccountId, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser) GetAccountId() string {
-	return v.AccountId
-}
-
-// TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser includes the requested fields of the GraphQL type AtlassianAccountUser.
-// The GraphQL type's documentation follows.
-//
-// # This represents a real person that has an account in a wide range of Atlassian products
-//
-// # See the documentation on the `User` and `LocalizationContext` for more details
-//
-// ### OAuth Scopes
-//
-// # One of the following scopes will need to be present on OAuth requests to get data from this field
-//
-// * __identity:atlassian-external__
-// * __read:account__
-type TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser struct {
-	Typename string `json:"__typename"`
-	Email    string `json:"email"`
-	// The account ID for the user.  This is an alias for `canonicalAccountId`
-	Id string `json:"id"`
-	// The lifecycle status of the account
-	AccountStatus AccountStatus `json:"accountStatus"`
-	// The display name of the user. This should be used when rendering a user textually within content.
-	// If the user has restricted visibility of their name, their nickname will be
-	// displayed as a substitute value.
-	Name string `json:"name"`
-	// The account ID for the user.
-	AccountId string `json:"accountId"`
-}
-
-// GetTypename returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser.Typename, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser) GetTypename() string {
-	return v.Typename
-}
-
-// GetEmail returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser.Email, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser) GetEmail() string {
-	return v.Email
-}
-
-// GetId returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser.Id, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser) GetId() string {
-	return v.Id
-}
-
-// GetAccountStatus returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser.AccountStatus, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser) GetAccountStatus() AccountStatus {
-	return v.AccountStatus
-}
-
-// GetName returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser.Name, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser) GetName() string {
-	return v.Name
-}
-
-// GetAccountId returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser.AccountId, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser) GetAccountId() string {
-	return v.AccountId
-}
-
-// TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser includes the requested fields of the GraphQL type CustomerUser.
-// The GraphQL type's documentation follows.
-//
-// # This represents a real person that has an free account within the Jira Service Desk product
-//
-// # See the documentation on the `User` and `LocalizationContext` for more details
-//
-// ### OAuth Scopes
-//
-// # One of the following scopes will need to be present on OAuth requests to get data from this field
-//
-// * __identity:atlassian-external__
-// * __read:account__
-type TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser struct {
-	Typename string `json:"__typename"`
-	// The account ID for the user.  This is an alias for `canonicalAccountId`
-	Id string `json:"id"`
-	// The lifecycle status of the account
-	AccountStatus AccountStatus `json:"accountStatus"`
-	// The display name of the user. This should be used when rendering a user textually within content.
-	// If the user has restricted visibility of their name, their nickname will be
-	// displayed as a substitute value.
-	Name string `json:"name"`
-	// The account ID for the user.
-	AccountId string `json:"accountId"`
-}
-
-// GetTypename returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser.Typename, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser) GetTypename() string {
-	return v.Typename
-}
-
-// GetId returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser.Id, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser) GetId() string {
-	return v.Id
-}
-
-// GetAccountStatus returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser.AccountStatus, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser) GetAccountStatus() AccountStatus {
-	return v.AccountStatus
-}
-
-// GetName returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser.Name, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser) GetName() string {
-	return v.Name
-}
-
-// GetAccountId returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser.AccountId, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser) GetAccountId() string {
-	return v.AccountId
-}
-
-// TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser includes the requested fields of the GraphQL interface User.
-//
-// TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser is implemented by the following types:
-// TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser
-// TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser
-// TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser
-// The GraphQL type's documentation follows.
-//
-// There are 3 types of accounts:
-//
-// * AtlassianAccountUser
-// * this represents a real person that has an account in a wide range of Atlassian products
-//
-// * CustomerUser
-// * This represents a real person who is a customer of an organisation who uses an
-// Atlassian product to provide service to their customers.
-// Currently, this is used within Jira Service Desk for external service desks.
-//
-// * AppUser
-// * this does not represent a real person but rather the identity that backs an installed application
-//
-// ### OAuth Scopes
-//
-// # One of the following scopes will need to be present on OAuth requests to get data from this field
-//
-// * __identity:atlassian-external__
-// * __read:account__
-type TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser interface {
-	implementsGraphQLInterfaceTeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser()
-	// GetTypename returns the receiver's concrete GraphQL type-name (see interface doc for possible values).
-	GetTypename() string
-	// GetId returns the interface-field "id" from its implementation.
-	// The GraphQL interface field's documentation follows.
-	//
-	// The account ID for the user.  This is an alias for `canonicalAccountId`
-	GetId() string
-	// GetAccountStatus returns the interface-field "accountStatus" from its implementation.
-	// The GraphQL interface field's documentation follows.
-	//
-	// The lifecycle status of the account
-	GetAccountStatus() AccountStatus
-	// GetName returns the interface-field "name" from its implementation.
-	// The GraphQL interface field's documentation follows.
-	//
-	// The display name of the user. This should be used when rendering a user textually within content.
-	// If the user has restricted visibility of their name, their nickname will be
-	// displayed as a substitute value.
-	GetName() string
-	// GetAccountId returns the interface-field "accountId" from its implementation.
-	// The GraphQL interface field's documentation follows.
-	//
-	// The account ID for the user.
-	GetAccountId() string
-}
-
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser) implementsGraphQLInterfaceTeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser() {
-}
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser) implementsGraphQLInterfaceTeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser() {
-}
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser) implementsGraphQLInterfaceTeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser() {
-}
-
-func __unmarshalTeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser(b []byte, v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser) error {
-	if string(b) == "null" {
-		return nil
-	}
-
-	var tn struct {
-		TypeName string `json:"__typename"`
-	}
-	err := json.Unmarshal(b, &tn)
-	if err != nil {
-		return err
-	}
-
-	switch tn.TypeName {
-	case "AppUser":
-		*v = new(TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser)
-		return json.Unmarshal(b, *v)
-	case "AtlassianAccountUser":
-		*v = new(TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser)
-		return json.Unmarshal(b, *v)
-	case "CustomerUser":
-		*v = new(TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser)
-		return json.Unmarshal(b, *v)
-	case "":
-		return fmt.Errorf(
-			"response was missing User.__typename")
-	default:
-		return fmt.Errorf(
-			`unexpected concrete type for TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser: "%v"`, tn.TypeName)
-	}
-}
-
-func __marshalTeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser(v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser) ([]byte, error) {
-
-	var typename string
-	switch v := (*v).(type) {
-	case *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser:
-		typename = "AppUser"
-
-		result := struct {
-			TypeName string `json:"__typename"`
-			*TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAppUser
-		}{typename, v}
-		return json.Marshal(result)
-	case *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser:
-		typename = "AtlassianAccountUser"
-
-		result := struct {
-			TypeName string `json:"__typename"`
-			*TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberAtlassianAccountUser
-		}{typename, v}
-		return json.Marshal(result)
-	case *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser:
-		typename = "CustomerUser"
-
-		result := struct {
-			TypeName string `json:"__typename"`
-			*TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberCustomerUser
-		}{typename, v}
-		return json.Marshal(result)
-	case nil:
-		return []byte("null"), nil
-	default:
-		return nil, fmt.Errorf(
-			`unexpected concrete type for TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2NodesTeamMemberV2MemberUser: "%T"`, v)
-	}
-}
-
-// TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo includes the requested fields of the GraphQL type PageInfo.
-// The GraphQL type's documentation follows.
-//
-// Relay-style PageInfo type.
-//
-// See [PageInfo specification](https://relay.dev/assets/files/connections-932f4f2cdffd79724ac76373deb30dc8.htm#sec-undefined.PageInfo)
-type TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo struct {
-	// `hasNextPage` is used to indicate whether more edges exist following the set
-	// defined by the clients arguments. If the client is paginating
-	// with `first` / `after`, then the server must return true if further edges
-	// exist, otherwise false. If the client is paginating with `last` / `before`,
-	// then the client may return true if edges further from before exist, if it can
-	// do so efficiently, otherwise may return false.
-	//
-	// |Authentication Category    |Callable      |
-	// |:--------------------------|:-------------|
-	// | SESSION | ✅ Yes |
-	// | API_TOKEN | ✅ Yes |
-	// | CONTAINER_TOKEN | ❌ No |
-	// | FIRST_PARTY_OAUTH | ❌ No |
-	// | THIRD_PARTY_OAUTH | ❌ No |
-	// | UNAUTHENTICATED | ✅ Yes |
-	HasNextPage bool `json:"hasNextPage"`
-	// `hasPreviousPage` is used to indicate whether more edges exist prior to the
-	// set defined by the clients arguments. If the client is paginating
-	// with `last` / `before`, then the server must return true if prior edges exist,
-	// otherwise false. If the client is paginating with `first` / `after`,
-	// then the client may return true if edges prior to after exist, if it can do so efficiently, otherwise may return false.
-	//
-	// |Authentication Category    |Callable      |
-	// |:--------------------------|:-------------|
-	// | SESSION | ✅ Yes |
-	// | API_TOKEN | ✅ Yes |
-	// | CONTAINER_TOKEN | ❌ No |
-	// | FIRST_PARTY_OAUTH | ❌ No |
-	// | THIRD_PARTY_OAUTH | ❌ No |
-	// | UNAUTHENTICATED | ✅ Yes |
-	HasPreviousPage bool `json:"hasPreviousPage"`
-	// startCursor must be the cursor corresponding to the first node in `edges`.
-	//
-	// |Authentication Category    |Callable      |
-	// |:--------------------------|:-------------|
-	// | SESSION | ✅ Yes |
-	// | API_TOKEN | ✅ Yes |
-	// | CONTAINER_TOKEN | ❌ No |
-	// | FIRST_PARTY_OAUTH | ❌ No |
-	// | THIRD_PARTY_OAUTH | ❌ No |
-	// | UNAUTHENTICATED | ✅ Yes |
-	StartCursor string `json:"startCursor"`
-	// endCursor must be the cursor corresponding to the last node in `edges`.
-	//
-	// |Authentication Category    |Callable      |
-	// |:--------------------------|:-------------|
-	// | SESSION | ✅ Yes |
-	// | API_TOKEN | ✅ Yes |
-	// | CONTAINER_TOKEN | ❌ No |
-	// | FIRST_PARTY_OAUTH | ❌ No |
-	// | THIRD_PARTY_OAUTH | ❌ No |
-	// | UNAUTHENTICATED | ✅ Yes |
-	EndCursor string `json:"endCursor"`
-}
-
-// GetHasNextPage returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo.HasNextPage, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo) GetHasNextPage() bool {
-	return v.HasNextPage
-}
-
-// GetHasPreviousPage returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo.HasPreviousPage, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo) GetHasPreviousPage() bool {
-	return v.HasPreviousPage
-}
-
-// GetStartCursor returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo.StartCursor, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo) GetStartCursor() string {
-	return v.StartCursor
-}
-
-// GetEndCursor returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo.EndCursor, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2MembersTeamMemberConnectionV2PageInfo) GetEndCursor() string {
-	return v.EndCursor
-}
-
-// TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo includes the requested fields of the GraphQL type PageInfo.
-// The GraphQL type's documentation follows.
-//
-// Relay-style PageInfo type.
-//
-// See [PageInfo specification](https://relay.dev/assets/files/connections-932f4f2cdffd79724ac76373deb30dc8.htm#sec-undefined.PageInfo)
-type TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo struct {
-	// `hasNextPage` is used to indicate whether more edges exist following the set
-	// defined by the clients arguments. If the client is paginating
-	// with `first` / `after`, then the server must return true if further edges
-	// exist, otherwise false. If the client is paginating with `last` / `before`,
-	// then the client may return true if edges further from before exist, if it can
-	// do so efficiently, otherwise may return false.
-	//
-	// |Authentication Category    |Callable      |
-	// |:--------------------------|:-------------|
-	// | SESSION | ✅ Yes |
-	// | API_TOKEN | ✅ Yes |
-	// | CONTAINER_TOKEN | ❌ No |
-	// | FIRST_PARTY_OAUTH | ❌ No |
-	// | THIRD_PARTY_OAUTH | ❌ No |
-	// | UNAUTHENTICATED | ✅ Yes |
-	HasNextPage bool `json:"hasNextPage"`
-	// `hasPreviousPage` is used to indicate whether more edges exist prior to the
-	// set defined by the clients arguments. If the client is paginating
-	// with `last` / `before`, then the server must return true if prior edges exist,
-	// otherwise false. If the client is paginating with `first` / `after`,
-	// then the client may return true if edges prior to after exist, if it can do so efficiently, otherwise may return false.
-	//
-	// |Authentication Category    |Callable      |
-	// |:--------------------------|:-------------|
-	// | SESSION | ✅ Yes |
-	// | API_TOKEN | ✅ Yes |
-	// | CONTAINER_TOKEN | ❌ No |
-	// | FIRST_PARTY_OAUTH | ❌ No |
-	// | THIRD_PARTY_OAUTH | ❌ No |
-	// | UNAUTHENTICATED | ✅ Yes |
-	HasPreviousPage bool `json:"hasPreviousPage"`
-	// startCursor must be the cursor corresponding to the first node in `edges`.
-	//
-	// |Authentication Category    |Callable      |
-	// |:--------------------------|:-------------|
-	// | SESSION | ✅ Yes |
-	// | API_TOKEN | ✅ Yes |
-	// | CONTAINER_TOKEN | ❌ No |
-	// | FIRST_PARTY_OAUTH | ❌ No |
-	// | THIRD_PARTY_OAUTH | ❌ No |
-	// | UNAUTHENTICATED | ✅ Yes |
-	StartCursor string `json:"startCursor"`
-	// endCursor must be the cursor corresponding to the last node in `edges`.
-	//
-	// |Authentication Category    |Callable      |
-	// |:--------------------------|:-------------|
-	// | SESSION | ✅ Yes |
-	// | API_TOKEN | ✅ Yes |
-	// | CONTAINER_TOKEN | ❌ No |
-	// | FIRST_PARTY_OAUTH | ❌ No |
-	// | THIRD_PARTY_OAUTH | ❌ No |
-	// | UNAUTHENTICATED | ✅ Yes |
-	EndCursor string `json:"endCursor"`
-}
-
-// GetHasNextPage returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.HasNextPage, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetHasNextPage() bool {
-	return v.HasNextPage
-}
-
-// GetHasPreviousPage returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.HasPreviousPage, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetHasPreviousPage() bool {
-	return v.HasPreviousPage
-}
-
-// GetStartCursor returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.StartCursor, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetStartCursor() string {
-	return v.StartCursor
-}
-
-// GetEndCursor returns TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.EndCursor, and is useful for accessing the field via an interface.
-func (v *TeamWithMembersTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetEndCursor() string {
-	return v.EndCursor
-}
-
-// TeamsResponse is returned by Teams on success.
-type TeamsResponse struct {
-	// Team-related queries
-	Team TeamsTeamTeamQuery `json:"team"`
-}
-
-// GetTeam returns TeamsResponse.Team, and is useful for accessing the field via an interface.
-func (v *TeamsResponse) GetTeam() TeamsTeamTeamQuery { return v.Team }
-
-// TeamsTeamTeamQuery includes the requested fields of the GraphQL type TeamQuery.
-type TeamsTeamTeamQuery struct {
-	// Returns the search result for teams matching the given query in the specified site and organization. Please provide
-	// siteId if present, in its raw id form (i.e. not ARI). If siteId is not present, please provide "None" string.
-	// Query can be empty.
-	// Optionally a limit, sort and a cursor can be supplied.
-	//
-	// |Authentication Category    |Callable      |
-	// |:--------------------------|:-------------|
-	// | SESSION | ✅ Yes |
-	// | API_TOKEN | ✅ Yes |
-	// | CONTAINER_TOKEN | ❌ No |
-	// | FIRST_PARTY_OAUTH | ❌ No |
-	// | THIRD_PARTY_OAUTH | ✅ Yes |
-	// | UNAUTHENTICATED | ❌ No |
-	// ### OAuth Scopes
-	//
-	// One of the following scopes will need to be present on OAuth requests to get data from this field
-	//
-	// * __view:team:teams__
-	//
-	// ### Field lifecycle
-	//
-	// This field is in the 'EXPERIMENTAL' lifecycle stage
-	//
-	// To query this field a client will need to add the '@optIn(to:
-	// "Team-search-v2")' query directive to the 'teamSearchV2' field, or to any of its parents.
-	//
-	// The field is extremely unstable. It can go through changes at any moment, and
-	// its execution can be slow and/or unreliable. Clients should use it with care
-	// and at their own risk!
-	TeamSearchV2 TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 `json:"teamSearchV2"`
-}
-
-// GetTeamSearchV2 returns TeamsTeamTeamQuery.TeamSearchV2, and is useful for accessing the field via an interface.
-func (v *TeamsTeamTeamQuery) GetTeamSearchV2() TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 {
-	return v.TeamSearchV2
-}
-
-// TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 includes the requested fields of the GraphQL type TeamSearchResultConnectionV2.
-// The GraphQL type's documentation follows.
-//
-// The result of the search for teams.
-type TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2 struct {
-	// Cursor for the next page of results
-	PageInfo TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo `json:"pageInfo"`
-	// Teams matching the search
-	Nodes []TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 `json:"nodes"`
-}
-
-// GetPageInfo returns TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2.PageInfo, and is useful for accessing the field via an interface.
-func (v *TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2) GetPageInfo() TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo {
-	return v.PageInfo
-}
-
-// GetNodes returns TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2.Nodes, and is useful for accessing the field via an interface.
-func (v *TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2) GetNodes() []TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 {
-	return v.Nodes
-}
-
-// TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 includes the requested fields of the GraphQL type TeamSearchResultV2.
-// The GraphQL type's documentation follows.
-//
-// Team returned in search
-type TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2 struct {
-	// Number of members in the team.
-	MemberCount int `json:"memberCount"`
-	// The Team matching the search.
-	Team TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 `json:"team"`
-}
-
-// GetMemberCount returns TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2.MemberCount, and is useful for accessing the field via an interface.
-func (v *TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2) GetMemberCount() int {
-	return v.MemberCount
-}
-
-// GetTeam returns TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2.Team, and is useful for accessing the field via an interface.
-func (v *TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2) GetTeam() TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 {
-	return v.Team
-}
-
-// TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 includes the requested fields of the GraphQL type TeamV2.
-// The GraphQL type's documentation follows.
-//
-// Team returned in a team query
-type TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2 struct {
-	// ID of the team
-	Id string `json:"id"`
-	// Organisation ID of the team
-	OrganizationId string `json:"organizationId"`
-	// The state of the team
-	State TeamStateV2 `json:"state"`
-	// Display name of the team
-	DisplayName string `json:"displayName"`
-	// Description of the team
-	Description string `json:"description"`
-}
-
-// GetId returns TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.Id, and is useful for accessing the field via an interface.
-func (v *TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetId() string {
-	return v.Id
-}
-
-// GetOrganizationId returns TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.OrganizationId, and is useful for accessing the field via an interface.
-func (v *TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetOrganizationId() string {
-	return v.OrganizationId
-}
-
-// GetState returns TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.State, and is useful for accessing the field via an interface.
-func (v *TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetState() TeamStateV2 {
-	return v.State
-}
-
-// GetDisplayName returns TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.DisplayName, and is useful for accessing the field via an interface.
-func (v *TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetDisplayName() string {
-	return v.DisplayName
-}
-
-// GetDescription returns TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2.Description, and is useful for accessing the field via an interface.
-func (v *TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2NodesTeamSearchResultV2TeamTeamV2) GetDescription() string {
-	return v.Description
-}
-
-// TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo includes the requested fields of the GraphQL type PageInfo.
-// The GraphQL type's documentation follows.
-//
-// Relay-style PageInfo type.
-//
-// See [PageInfo specification](https://relay.dev/assets/files/connections-932f4f2cdffd79724ac76373deb30dc8.htm#sec-undefined.PageInfo)
-type TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo struct {
-	// `hasNextPage` is used to indicate whether more edges exist following the set
-	// defined by the clients arguments. If the client is paginating
-	// with `first` / `after`, then the server must return true if further edges
-	// exist, otherwise false. If the client is paginating with `last` / `before`,
-	// then the client may return true if edges further from before exist, if it can
-	// do so efficiently, otherwise may return false.
-	//
-	// |Authentication Category    |Callable      |
-	// |:--------------------------|:-------------|
-	// | SESSION | ✅ Yes |
-	// | API_TOKEN | ✅ Yes |
-	// | CONTAINER_TOKEN | ❌ No |
-	// | FIRST_PARTY_OAUTH | ❌ No |
-	// | THIRD_PARTY_OAUTH | ❌ No |
-	// | UNAUTHENTICATED | ✅ Yes |
-	HasNextPage bool `json:"hasNextPage"`
-	// `hasPreviousPage` is used to indicate whether more edges exist prior to the
-	// set defined by the clients arguments. If the client is paginating
-	// with `last` / `before`, then the server must return true if prior edges exist,
-	// otherwise false. If the client is paginating with `first` / `after`,
-	// then the client may return true if edges prior to after exist, if it can do so efficiently, otherwise may return false.
-	//
-	// |Authentication Category    |Callable      |
-	// |:--------------------------|:-------------|
-	// | SESSION | ✅ Yes |
-	// | API_TOKEN | ✅ Yes |
-	// | CONTAINER_TOKEN | ❌ No |
-	// | FIRST_PARTY_OAUTH | ❌ No |
-	// | THIRD_PARTY_OAUTH | ❌ No |
-	// | UNAUTHENTICATED | ✅ Yes |
-	HasPreviousPage bool `json:"hasPreviousPage"`
-	// startCursor must be the cursor corresponding to the first node in `edges`.
-	//
-	// |Authentication Category    |Callable      |
-	// |:--------------------------|:-------------|
-	// | SESSION | ✅ Yes |
-	// | API_TOKEN | ✅ Yes |
-	// | CONTAINER_TOKEN | ❌ No |
-	// | FIRST_PARTY_OAUTH | ❌ No |
-	// | THIRD_PARTY_OAUTH | ❌ No |
-	// | UNAUTHENTICATED | ✅ Yes |
-	StartCursor string `json:"startCursor"`
-	// endCursor must be the cursor corresponding to the last node in `edges`.
-	//
-	// |Authentication Category    |Callable      |
-	// |:--------------------------|:-------------|
-	// | SESSION | ✅ Yes |
-	// | API_TOKEN | ✅ Yes |
-	// | CONTAINER_TOKEN | ❌ No |
-	// | FIRST_PARTY_OAUTH | ❌ No |
-	// | THIRD_PARTY_OAUTH | ❌ No |
-	// | UNAUTHENTICATED | ✅ Yes |
-	EndCursor string `json:"endCursor"`
-}
-
-// GetHasNextPage returns TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.HasNextPage, and is useful for accessing the field via an interface.
-func (v *TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetHasNextPage() bool {
-	return v.HasNextPage
-}
-
-// GetHasPreviousPage returns TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.HasPreviousPage, and is useful for accessing the field via an interface.
-func (v *TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetHasPreviousPage() bool {
-	return v.HasPreviousPage
-}
-
-// GetStartCursor returns TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.StartCursor, and is useful for accessing the field via an interface.
-func (v *TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetStartCursor() string {
-	return v.StartCursor
-}
-
-// GetEndCursor returns TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo.EndCursor, and is useful for accessing the field via an interface.
-func (v *TeamsTeamTeamQueryTeamSearchV2TeamSearchResultConnectionV2PageInfo) GetEndCursor() string {
-	return v.EndCursor
-}
+// GetQuery returns __FindTeamByIDInput.Query, and is useful for accessing the field via an interface.
+func (v *__FindTeamByIDInput) GetQuery() string { return v.Query }
 
-// __FindMembersTeamsInput is used internally by genqlient
-type __FindMembersTeamsInput struct {
+// __ListTeamsThatContainMemberInput is used internally by genqlient
+type __ListTeamsThatContainMemberInput struct {
 	OrganizationId string     `json:"organizationId"`
 	SiteId         string     `json:"siteId"`
 	First          int        `json:"first"`
@@ -1313,91 +1329,128 @@ type __FindMembersTeamsInput struct {
 	FilterByMember string     `json:"filterByMember"`
 }
 
-// GetOrganizationId returns __FindMembersTeamsInput.OrganizationId, and is useful for accessing the field via an interface.
-func (v *__FindMembersTeamsInput) GetOrganizationId() string { return v.OrganizationId }
+// GetOrganizationId returns __ListTeamsThatContainMemberInput.OrganizationId, and is useful for accessing the field via an interface.
+func (v *__ListTeamsThatContainMemberInput) GetOrganizationId() string { return v.OrganizationId }
 
-// GetSiteId returns __FindMembersTeamsInput.SiteId, and is useful for accessing the field via an interface.
-func (v *__FindMembersTeamsInput) GetSiteId() string { return v.SiteId }
+// GetSiteId returns __ListTeamsThatContainMemberInput.SiteId, and is useful for accessing the field via an interface.
+func (v *__ListTeamsThatContainMemberInput) GetSiteId() string { return v.SiteId }
 
-// GetFirst returns __FindMembersTeamsInput.First, and is useful for accessing the field via an interface.
-func (v *__FindMembersTeamsInput) GetFirst() int { return v.First }
+// GetFirst returns __ListTeamsThatContainMemberInput.First, and is useful for accessing the field via an interface.
+func (v *__ListTeamsThatContainMemberInput) GetFirst() int { return v.First }
 
-// GetSortBy returns __FindMembersTeamsInput.SortBy, and is useful for accessing the field via an interface.
-func (v *__FindMembersTeamsInput) GetSortBy() []TeamSort { return v.SortBy }
+// GetSortBy returns __ListTeamsThatContainMemberInput.SortBy, and is useful for accessing the field via an interface.
+func (v *__ListTeamsThatContainMemberInput) GetSortBy() []TeamSort { return v.SortBy }
 
-// GetTeamAfter returns __FindMembersTeamsInput.TeamAfter, and is useful for accessing the field via an interface.
-func (v *__FindMembersTeamsInput) GetTeamAfter() string { return v.TeamAfter }
+// GetTeamAfter returns __ListTeamsThatContainMemberInput.TeamAfter, and is useful for accessing the field via an interface.
+func (v *__ListTeamsThatContainMemberInput) GetTeamAfter() string { return v.TeamAfter }
 
-// GetFilterByMember returns __FindMembersTeamsInput.FilterByMember, and is useful for accessing the field via an interface.
-func (v *__FindMembersTeamsInput) GetFilterByMember() string { return v.FilterByMember }
+// GetFilterByMember returns __ListTeamsThatContainMemberInput.FilterByMember, and is useful for accessing the field via an interface.
+func (v *__ListTeamsThatContainMemberInput) GetFilterByMember() string { return v.FilterByMember }
 
-// __QueryForTeamInput is used internally by genqlient
-type __QueryForTeamInput struct {
-	SiteId string `json:"siteId"`
-	Query  string `json:"query"`
+// __SearchForTeamsEmbedMembersInput is used internally by genqlient
+type __SearchForTeamsEmbedMembersInput struct {
+	OrganizationId  string     `json:"organizationId"`
+	SiteId          string     `json:"siteId"`
+	First           int        `json:"first"`
+	Query           string     `json:"query"`
+	SortBy          []TeamSort `json:"sortBy"`
+	TeamMemberAfter string     `json:"teamMemberAfter"`
+	TeamAfter       string     `json:"teamAfter"`
 }
 
-// GetSiteId returns __QueryForTeamInput.SiteId, and is useful for accessing the field via an interface.
-func (v *__QueryForTeamInput) GetSiteId() string { return v.SiteId }
+// GetOrganizationId returns __SearchForTeamsEmbedMembersInput.OrganizationId, and is useful for accessing the field via an interface.
+func (v *__SearchForTeamsEmbedMembersInput) GetOrganizationId() string { return v.OrganizationId }
 
-// GetQuery returns __QueryForTeamInput.Query, and is useful for accessing the field via an interface.
-func (v *__QueryForTeamInput) GetQuery() string { return v.Query }
+// GetSiteId returns __SearchForTeamsEmbedMembersInput.SiteId, and is useful for accessing the field via an interface.
+func (v *__SearchForTeamsEmbedMembersInput) GetSiteId() string { return v.SiteId }
 
-// __TeamWithMembersInput is used internally by genqlient
-type __TeamWithMembersInput struct {
-	OrganizationId  string     `json:"organizationId,omitempty"`
-	SiteId          string     `json:"siteId,omitempty"`
-	First           int        `json:"first,omitempty"`
-	SortBy          []TeamSort `json:"sortBy,omitempty"`
-	TeamMemberAfter string     `json:"teamMemberAfter,omitempty"`
-	TeamAfter       string     `json:"teamAfter,omitempty"`
+// GetFirst returns __SearchForTeamsEmbedMembersInput.First, and is useful for accessing the field via an interface.
+func (v *__SearchForTeamsEmbedMembersInput) GetFirst() int { return v.First }
+
+// GetQuery returns __SearchForTeamsEmbedMembersInput.Query, and is useful for accessing the field via an interface.
+func (v *__SearchForTeamsEmbedMembersInput) GetQuery() string { return v.Query }
+
+// GetSortBy returns __SearchForTeamsEmbedMembersInput.SortBy, and is useful for accessing the field via an interface.
+func (v *__SearchForTeamsEmbedMembersInput) GetSortBy() []TeamSort { return v.SortBy }
+
+// GetTeamMemberAfter returns __SearchForTeamsEmbedMembersInput.TeamMemberAfter, and is useful for accessing the field via an interface.
+func (v *__SearchForTeamsEmbedMembersInput) GetTeamMemberAfter() string { return v.TeamMemberAfter }
+
+// GetTeamAfter returns __SearchForTeamsEmbedMembersInput.TeamAfter, and is useful for accessing the field via an interface.
+func (v *__SearchForTeamsEmbedMembersInput) GetTeamAfter() string { return v.TeamAfter }
+
+// __SearchForTeamsInput is used internally by genqlient
+type __SearchForTeamsInput struct {
+	OrganizationId string     `json:"organizationId,omitempty"`
+	SiteId         string     `json:"siteId,omitempty"`
+	First          int        `json:"first,omitempty"`
+	Query          string     `json:"query,omitempty"`
+	SortBy         []TeamSort `json:"sortBy,omitempty"`
+	TeamAfter      string     `json:"teamAfter,omitempty"`
 }
 
-// GetOrganizationId returns __TeamWithMembersInput.OrganizationId, and is useful for accessing the field via an interface.
-func (v *__TeamWithMembersInput) GetOrganizationId() string { return v.OrganizationId }
+// GetOrganizationId returns __SearchForTeamsInput.OrganizationId, and is useful for accessing the field via an interface.
+func (v *__SearchForTeamsInput) GetOrganizationId() string { return v.OrganizationId }
 
-// GetSiteId returns __TeamWithMembersInput.SiteId, and is useful for accessing the field via an interface.
-func (v *__TeamWithMembersInput) GetSiteId() string { return v.SiteId }
+// GetSiteId returns __SearchForTeamsInput.SiteId, and is useful for accessing the field via an interface.
+func (v *__SearchForTeamsInput) GetSiteId() string { return v.SiteId }
 
-// GetFirst returns __TeamWithMembersInput.First, and is useful for accessing the field via an interface.
-func (v *__TeamWithMembersInput) GetFirst() int { return v.First }
+// GetFirst returns __SearchForTeamsInput.First, and is useful for accessing the field via an interface.
+func (v *__SearchForTeamsInput) GetFirst() int { return v.First }
 
-// GetSortBy returns __TeamWithMembersInput.SortBy, and is useful for accessing the field via an interface.
-func (v *__TeamWithMembersInput) GetSortBy() []TeamSort { return v.SortBy }
+// GetQuery returns __SearchForTeamsInput.Query, and is useful for accessing the field via an interface.
+func (v *__SearchForTeamsInput) GetQuery() string { return v.Query }
 
-// GetTeamMemberAfter returns __TeamWithMembersInput.TeamMemberAfter, and is useful for accessing the field via an interface.
-func (v *__TeamWithMembersInput) GetTeamMemberAfter() string { return v.TeamMemberAfter }
+// GetSortBy returns __SearchForTeamsInput.SortBy, and is useful for accessing the field via an interface.
+func (v *__SearchForTeamsInput) GetSortBy() []TeamSort { return v.SortBy }
 
-// GetTeamAfter returns __TeamWithMembersInput.TeamAfter, and is useful for accessing the field via an interface.
-func (v *__TeamWithMembersInput) GetTeamAfter() string { return v.TeamAfter }
+// GetTeamAfter returns __SearchForTeamsInput.TeamAfter, and is useful for accessing the field via an interface.
+func (v *__SearchForTeamsInput) GetTeamAfter() string { return v.TeamAfter }
 
-// __TeamsInput is used internally by genqlient
-type __TeamsInput struct {
-	OrganizationId string     `json:"organizationId"`
-	SiteId         string     `json:"siteId"`
-	First          int        `json:"first"`
-	SortBy         []TeamSort `json:"sortBy"`
-	TeamAfter      string     `json:"teamAfter"`
+// The query or mutation executed by FindTeamByID.
+const FindTeamByID_Operation = `
+query FindTeamByID ($siteId: String!, $query: ID!) {
+	team {
+		teamV2(id: $query, siteId: $siteId) @optIn(to: "Team-v2") {
+			id
+			displayName
+		}
+	}
+}
+`
+
+// FindTeamByID will query for a specific team
+func FindTeamByID(
+	ctx_ context.Context,
+	client_ graphql.Client,
+	siteId string,
+	query string,
+) (*FindTeamByIDResponse, error) {
+	req_ := &graphql.Request{
+		OpName: "FindTeamByID",
+		Query:  FindTeamByID_Operation,
+		Variables: &__FindTeamByIDInput{
+			SiteId: siteId,
+			Query:  query,
+		},
+	}
+	var err_ error
+
+	var data_ FindTeamByIDResponse
+	resp_ := &graphql.Response{Data: &data_}
+
+	err_ = client_.MakeRequest(
+		ctx_,
+		req_,
+		resp_,
+	)
+
+	return &data_, err_
 }
 
-// GetOrganizationId returns __TeamsInput.OrganizationId, and is useful for accessing the field via an interface.
-func (v *__TeamsInput) GetOrganizationId() string { return v.OrganizationId }
-
-// GetSiteId returns __TeamsInput.SiteId, and is useful for accessing the field via an interface.
-func (v *__TeamsInput) GetSiteId() string { return v.SiteId }
-
-// GetFirst returns __TeamsInput.First, and is useful for accessing the field via an interface.
-func (v *__TeamsInput) GetFirst() int { return v.First }
-
-// GetSortBy returns __TeamsInput.SortBy, and is useful for accessing the field via an interface.
-func (v *__TeamsInput) GetSortBy() []TeamSort { return v.SortBy }
-
-// GetTeamAfter returns __TeamsInput.TeamAfter, and is useful for accessing the field via an interface.
-func (v *__TeamsInput) GetTeamAfter() string { return v.TeamAfter }
-
-// The query or mutation executed by FindMembersTeams.
-const FindMembersTeams_Operation = `
-query FindMembersTeams ($organizationId: ID!, $siteId: String!, $first: Int, $sortBy: [TeamSort], $teamAfter: String, $filterByMember: ID!) {
+// The query or mutation executed by ListTeamsThatContainMember.
+const ListTeamsThatContainMember_Operation = `
+query ListTeamsThatContainMember ($organizationId: ID!, $siteId: String!, $first: Int, $sortBy: [TeamSort], $teamAfter: String, $filterByMember: ID!) {
 	team {
 		teamSearchV2(organizationId: $organizationId, siteId: $siteId, first: $first, sortBy: $sortBy, after: $teamAfter, filter: {membership:{memberIds:[$filterByMember]}}) @optIn(to: "Team-search-v2") {
 			pageInfo {
@@ -1421,7 +1474,8 @@ query FindMembersTeams ($organizationId: ID!, $siteId: String!, $first: Int, $so
 }
 `
 
-func FindMembersTeams(
+// ListTeamsThatContainMember will list all teams that contain a specific member
+func ListTeamsThatContainMember(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	organizationId string,
@@ -1430,11 +1484,11 @@ func FindMembersTeams(
 	sortBy []TeamSort,
 	teamAfter string,
 	filterByMember string,
-) (*FindMembersTeamsResponse, error) {
+) (*ListTeamsThatContainMemberResponse, error) {
 	req_ := &graphql.Request{
-		OpName: "FindMembersTeams",
-		Query:  FindMembersTeams_Operation,
-		Variables: &__FindMembersTeamsInput{
+		OpName: "ListTeamsThatContainMember",
+		Query:  ListTeamsThatContainMember_Operation,
+		Variables: &__ListTeamsThatContainMemberInput{
 			OrganizationId: organizationId,
 			SiteId:         siteId,
 			First:          first,
@@ -1445,7 +1499,7 @@ func FindMembersTeams(
 	}
 	var err_ error
 
-	var data_ FindMembersTeamsResponse
+	var data_ ListTeamsThatContainMemberResponse
 	resp_ := &graphql.Response{Data: &data_}
 
 	err_ = client_.MakeRequest(
@@ -1457,35 +1511,58 @@ func FindMembersTeams(
 	return &data_, err_
 }
 
-// The query or mutation executed by QueryForTeam.
-const QueryForTeam_Operation = `
-query QueryForTeam ($siteId: String!, $query: ID!) {
+// The query or mutation executed by SearchForTeams.
+const SearchForTeams_Operation = `
+query SearchForTeams ($organizationId: ID!, $siteId: String!, $first: Int!, $query: String!, $sortBy: [TeamSort], $teamAfter: String) {
 	team {
-		teamV2(id: $query, siteId: $siteId) @optIn(to: "Team-v2") {
-			id
-			displayName
+		teamSearchV2(organizationId: $organizationId, siteId: $siteId, first: $first, sortBy: $sortBy, after: $teamAfter, filter: {query:$query}) @optIn(to: "Team-search-v2") {
+			pageInfo {
+				hasNextPage
+				hasPreviousPage
+				startCursor
+				endCursor
+			}
+			nodes {
+				memberCount
+				team {
+					id
+					organizationId
+					state
+					displayName
+					description
+				}
+			}
 		}
 	}
 }
 `
 
-func QueryForTeam(
+// SearchForTeams will search for teams in the organization, this is a paginated query
+func SearchForTeams(
 	ctx_ context.Context,
 	client_ graphql.Client,
+	organizationId string,
 	siteId string,
+	first int,
 	query string,
-) (*QueryForTeamResponse, error) {
+	sortBy []TeamSort,
+	teamAfter string,
+) (*SearchForTeamsResponse, error) {
 	req_ := &graphql.Request{
-		OpName: "QueryForTeam",
-		Query:  QueryForTeam_Operation,
-		Variables: &__QueryForTeamInput{
-			SiteId: siteId,
-			Query:  query,
+		OpName: "SearchForTeams",
+		Query:  SearchForTeams_Operation,
+		Variables: &__SearchForTeamsInput{
+			OrganizationId: organizationId,
+			SiteId:         siteId,
+			First:          first,
+			Query:          query,
+			SortBy:         sortBy,
+			TeamAfter:      teamAfter,
 		},
 	}
 	var err_ error
 
-	var data_ QueryForTeamResponse
+	var data_ SearchForTeamsResponse
 	resp_ := &graphql.Response{Data: &data_}
 
 	err_ = client_.MakeRequest(
@@ -1497,11 +1574,11 @@ func QueryForTeam(
 	return &data_, err_
 }
 
-// The query or mutation executed by TeamWithMembers.
-const TeamWithMembers_Operation = `
-query TeamWithMembers ($organizationId: ID!, $siteId: String!, $first: Int!, $sortBy: [TeamSort], $teamMemberAfter: String, $teamAfter: String) {
+// The query or mutation executed by SearchForTeamsEmbedMembers.
+const SearchForTeamsEmbedMembers_Operation = `
+query SearchForTeamsEmbedMembers ($organizationId: ID!, $siteId: String!, $first: Int!, $query: String!, $sortBy: [TeamSort], $teamMemberAfter: String, $teamAfter: String) {
 	team {
-		teamSearchV2(organizationId: $organizationId, siteId: $siteId, first: $first, sortBy: $sortBy, after: $teamAfter) @optIn(to: "Team-search-v2") {
+		teamSearchV2(organizationId: $organizationId, siteId: $siteId, first: $first, sortBy: $sortBy, after: $teamAfter, filter: {query:$query}) @optIn(to: "Team-search-v2") {
 			pageInfo {
 				hasNextPage
 				hasPreviousPage
@@ -1545,23 +1622,26 @@ query TeamWithMembers ($organizationId: ID!, $siteId: String!, $first: Int!, $so
 }
 `
 
-func TeamWithMembers(
+// Just like SearchForTeams, but also embeds the members of the teams
+func SearchForTeamsEmbedMembers(
 	ctx_ context.Context,
 	client_ graphql.Client,
 	organizationId string,
 	siteId string,
 	first int,
+	query string,
 	sortBy []TeamSort,
 	teamMemberAfter string,
 	teamAfter string,
-) (*TeamWithMembersResponse, error) {
+) (*SearchForTeamsEmbedMembersResponse, error) {
 	req_ := &graphql.Request{
-		OpName: "TeamWithMembers",
-		Query:  TeamWithMembers_Operation,
-		Variables: &__TeamWithMembersInput{
+		OpName: "SearchForTeamsEmbedMembers",
+		Query:  SearchForTeamsEmbedMembers_Operation,
+		Variables: &__SearchForTeamsEmbedMembersInput{
 			OrganizationId:  organizationId,
 			SiteId:          siteId,
 			First:           first,
+			Query:           query,
 			SortBy:          sortBy,
 			TeamMemberAfter: teamMemberAfter,
 			TeamAfter:       teamAfter,
@@ -1569,67 +1649,7 @@ func TeamWithMembers(
 	}
 	var err_ error
 
-	var data_ TeamWithMembersResponse
-	resp_ := &graphql.Response{Data: &data_}
-
-	err_ = client_.MakeRequest(
-		ctx_,
-		req_,
-		resp_,
-	)
-
-	return &data_, err_
-}
-
-// The query or mutation executed by Teams.
-const Teams_Operation = `
-query Teams ($organizationId: ID!, $siteId: String!, $first: Int!, $sortBy: [TeamSort], $teamAfter: String) {
-	team {
-		teamSearchV2(organizationId: $organizationId, siteId: $siteId, first: $first, sortBy: $sortBy, after: $teamAfter) @optIn(to: "Team-search-v2") {
-			pageInfo {
-				hasNextPage
-				hasPreviousPage
-				startCursor
-				endCursor
-			}
-			nodes {
-				memberCount
-				team {
-					id
-					organizationId
-					state
-					displayName
-					description
-				}
-			}
-		}
-	}
-}
-`
-
-func Teams(
-	ctx_ context.Context,
-	client_ graphql.Client,
-	organizationId string,
-	siteId string,
-	first int,
-	sortBy []TeamSort,
-	teamAfter string,
-) (*TeamsResponse, error) {
-	req_ := &graphql.Request{
-		OpName: "Teams",
-		Query:  Teams_Operation,
-		Variables: &__TeamsInput{
-			OrganizationId: organizationId,
-			SiteId:         siteId,
-			First:          first,
-			SortBy:         sortBy,
-			TeamAfter:      teamAfter,
-		},
-	}
-	var err_ error
-
-	var data_ TeamsResponse
+	var data_ SearchForTeamsEmbedMembersResponse
 	resp_ := &graphql.Response{Data: &data_}
 
 	err_ = client_.MakeRequest(

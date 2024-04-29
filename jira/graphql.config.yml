@@ -1,0 +1,6 @@
+schema: schema.graphql
+extensions:
+  endpoints:
+    One:
+      url: https://breadfinance.atlassian.net/gateway/api/graphql
+
